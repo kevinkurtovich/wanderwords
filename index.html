@@ -7,7 +7,7 @@
   <meta name="description" content="Six lovable characters. One flying story-ship. A new Mandarin adventure every day — written to match exactly what your child knows, and teach them a little more." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,700&family=Nunito:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,700&family=Nunito:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
 
     /* ═══════════════════════════════
@@ -228,8 +228,8 @@
     }
     .lang-btn.active { background: var(--dark); color: var(--cream); }
     .lang-btn:not(.active):hover { background: rgba(33,30,26,0.10); }
-    html[lang="zh"] body { font-family: 'Noto Sans SC', 'Nunito', sans-serif; font-weight: 400; }
-    html[lang="zh"] p, html[lang="zh"] li, html[lang="zh"] span, html[lang="zh"] a:not(.btn-orange):not(.btn-primary) { font-weight: 400 !important; }
+    html[lang="zh"] body { font-family: 'Noto Sans SC', 'Nunito', sans-serif; font-weight: 500; }
+    html[lang="zh"] p, html[lang="zh"] li, html[lang="zh"] span, html[lang="zh"] a:not(.btn-orange):not(.btn-primary) { font-weight: 500 !important; }
     html[lang="zh"] h1, html[lang="zh"] h2, html[lang="zh"] h3, html[lang="zh"] .eyebrow, html[lang="zh"] .btn-orange, html[lang="zh"] .btn-primary { font-weight: 700; }
     html[lang="zh"] h2, html[lang="zh"] h3 { font-family: 'Noto Sans SC', serif; font-variation-settings: normal; letter-spacing: -0.01em; }
     html[lang="zh"] h1 { font-family: 'Noto Sans SC', serif; font-variation-settings: normal; }
@@ -560,6 +560,9 @@
     .crew-card:hover .crew-char-img { transform: scale(1.06) translateY(-4px); }
 
     .crew-card-info { flex: 1; }
+    /* Improved line spacing for story + crew copy */
+    #stories p, .crew-card-info p { line-height: 1.82; }
+    html[lang="zh"] #stories p, html[lang="zh"] .crew-card-info p { line-height: 1.95; }
     .crew-name {
       font-family: 'Fraunces', serif;
       font-variation-settings: 'SOFT' 0, 'WONK' 1;
@@ -1454,7 +1457,7 @@
 ══════════════════════════════ -->
 <div id="early-access">
   <div class="ea-shimmer"></div>
-  <p class="ea-text" data-i18n="ea-text">A small group of founding families is shaping WanderWords. Join them and lock in the founding price — forever.</p>
+  <p class="ea-text" data-i18n="ea-text">A small group of families is helping us build it, and shaping what comes next.</p>
   <a href="https://app.wanderwords.co" class="btn-sm" data-i18n="ea-btn">Apply Now</a>
 </div>
 
@@ -1468,7 +1471,7 @@
     <div class="container">
       <div class="crew-header reveal">
         <h2 data-i18n="crew-h2">Meet the Crew</h2>
-        <p data-i18n="crew-intro">Every story is a new episode. The same six characters, a brand new adventure — so your child builds a real relationship with the crew, and the language comes along for the ride.</p>
+        <p data-i18n="crew-intro">Every story is a new creation aboard the Story Ship. The same six characters, different adventures — so kids build real bonds with the crew as they build their Mandarin.</p>
       </div>
       <div class="crew-cast-wrap reveal">
         <img class="crew-cast-img"
@@ -1505,7 +1508,7 @@
           </div>
           <div class="crew-card-info">
             <p class="crew-name">Mèng 梦</p>
-            <p data-i18n="meng-desc">Staring at the clouds while everyone else is panicking. He's also usually right. The smallest member of the crew, with the biggest imagination — and no interest in explaining himself.</p>
+            <p data-i18n="meng-desc">He's staring at the clouds while everyone is panicking. He's also usually right. The smallest member of the crew, with the biggest imagination — and no interest in explaining himself.</p>
           </div>
         </div>
 
@@ -1517,7 +1520,7 @@
           </div>
           <div class="crew-card-info">
             <p class="crew-name">Yǒng 勇</p>
-            <p data-i18n="yong-desc">Every problem is an engineering challenge. He builds things, measures things, and climbs things — with complete confidence and occasional miscalculation.</p>
+            <p data-i18n="yong-desc">Every problem is an engineering challenge. He likes to build things, measure things and climbs up everywhere - with complete confidence and occasional miscalculation.</p>
           </div>
         </div>
 
@@ -1529,7 +1532,7 @@
           </div>
           <div class="crew-card-info">
             <p class="crew-name">Qí 奇</p>
-            <p data-i18n="qi-desc">He's already sprinted toward the strange door before anyone agreed it was a good idea. Qí's curiosity is what starts every adventure — and his green scarf is always windswept.</p>
+            <p data-i18n="qi-desc">He's already sprinted toward the strange door before anyone agreed it was a good idea. Qí's curiosity is what starts every adventure - and his green scarf is always windswept.</p>
           </div>
         </div>
 
@@ -1541,7 +1544,7 @@
           </div>
           <div class="crew-card-info">
             <p class="crew-name">Míng 明</p>
-            <p data-i18n="ming-desc">He's read every book on the ship. He knows what the ancient inscription says, what the legend means — and, quietly, which new Mandarin words your child will learn in today's story.</p>
+            <p data-i18n="ming-desc">He's read every book on the ship. He knows what the ancient inscription says, what the legend means - and quietly, which new Mandarin words your child will learn in today's story.</p>
           </div>
         </div>
 
@@ -1553,7 +1556,7 @@
           </div>
           <div class="crew-card-info">
             <p class="crew-name">Fēng 风</p>
-            <p data-i18n="feng-desc">Fast, funny, and his blue backpack always has exactly the wrong thing for the situation. Nobody knows what's inside it — including Fēng. He doesn't help. He helps a lot.</p>
+            <p data-i18n="feng-desc">Fast, funny and her blue backpack always contains exactly the wrong things for the situation. Nobody knows what's in there. She zooms around with confidence and somehow manages to turn every mixup into a fun learning adventure.</p>
           </div>
         </div>
         </div>
@@ -1575,9 +1578,9 @@
       <div class="stories-hero-row">
 
         <div class="stories-header">
-          <span class="eyebrow reveal" data-i18n="stories-eyebrow">A new adventure, every day</span>
-          <h2 class="reveal delay-1" data-i18n="stories-h2">Six worlds. Your child picks the door.</h2>
-          <p class="story-intro reveal delay-2" data-i18n="story-intro">Every morning, a new story — written around exactly what your child knows, teaching 3–5 new characters through the plot itself. Your child picks the world. The crew takes it from there.</p>
+          <span class="eyebrow reveal" data-i18n="stories-eyebrow">A new adventure. Every day.</span>
+          <h2 class="reveal delay-1" data-i18n="stories-h2">Six amazing characters. Six incredible worlds. A new story every day.</h2>
+          <p class="story-intro reveal delay-2" data-i18n="story-intro">Every story is curated and calibrated to what your child already knows, while teaching them a little more. Your child picks the world. The crew takes it from there!</p>
           <div class="theme-chips reveal delay-3">
             <span class="theme-chip" data-i18n="theme-1">Ancient Civilizations</span>
             <span class="theme-chip" data-i18n="theme-2">Animal Adventures</span>
@@ -2098,7 +2101,7 @@
   }, { passive: true });
 
   /* ── Hero headline word-by-word ── */
-  const HEADLINE = "The Chinese adventure your child asks for every day.";
+  const HEADLINE = "Your child's favorite characters speak Mandarin.";
   const container = document.getElementById('heroHeadline');
   if (container) {
     HEADLINE.split(' ').forEach((word, i) => {
@@ -2206,21 +2209,21 @@
       'nav-about':'About','nav-features':'Features','nav-pricing':'Pricing',
       'nav-login':'Log in','nav-cta':'Start Free Trial',
       'hero-eyebrow':'Trusted by early-access families · Now open',
-      'hero-headline':"The Chinese adventure your child asks for every day.",
+      'hero-headline':"Your child's favorite characters speak Mandarin.",
       'hero-subhead':'A fresh adventure every morning, written around exactly what your child already knows — and built to quietly teach them a little more. Six characters. One flying ship. Zero flashcards.',
       'hero-cta':"Start My Child's Free Adventure",'hero-cta-note':'7-day free trial · No credit card · Cancel anytime',
-      'ea-text':'A small group of founding families is shaping WanderWords. Join them and lock in the founding price — forever.',
+      'ea-text':'A small group of families is helping us build it, and shaping what comes next.',
       'ea-btn':'Apply Now',
       'crew-h2':'Meet the Crew',
-      'crew-intro':'Every story is a new episode. The same six characters, a brand new adventure — so your child builds a real relationship with the crew, and the language comes along for the ride.',
+      'crew-intro':'Every story is a new creation aboard the Story Ship. The same six characters, different adventures — so kids build real bonds with the crew as they build their Mandarin.',
       'ling-desc':"The one everyone trusts. When the ship lands somewhere new and things go sideways, Líng figures out how everyone's feeling before anyone says a word. Her gold bell means everything's going to be okay.",
-      'meng-desc':"Staring at the clouds while everyone else is panicking. He's also usually right. The smallest member of the crew, with the biggest imagination — and no interest in explaining himself.",
-      'yong-desc':'Every problem is an engineering challenge. He builds things, measures things, and climbs things — with complete confidence and occasional miscalculation.',
-      'qi-desc':"He's already sprinted toward the strange door before anyone agreed it was a good idea. Qí's curiosity is what starts every adventure — and his green scarf is always windswept.",
-      'ming-desc':"He's read every book on the ship. He knows what the ancient inscription says, what the legend means — and, quietly, which new Mandarin words your child will learn in today's story.",
-      'feng-desc':"Fast, funny, and his blue backpack always has exactly the wrong thing for the situation. Nobody knows what's inside it — including Fēng. He doesn't help. He helps a lot.",
-      'stories-eyebrow':'A new adventure, every day','stories-h2':'Six worlds. Your child picks the door.',
-      'story-intro':'Every morning, a new story — written around exactly what your child knows, teaching 3–5 new characters through the plot itself. Your child picks the world. The crew takes it from there.',
+      'meng-desc':"He's staring at the clouds while everyone is panicking. He's also usually right. The smallest member of the crew, with the biggest imagination — and no interest in explaining himself.",
+      'yong-desc':'Every problem is an engineering challenge. He likes to build things, measure things and climbs up everywhere - with complete confidence and occasional miscalculation.',
+      'qi-desc':"He's already sprinted toward the strange door before anyone agreed it was a good idea. Qí's curiosity is what starts every adventure - and his green scarf is always windswept.",
+      'ming-desc':"He's read every book on the ship. He knows what the ancient inscription says, what the legend means - and quietly, which new Mandarin words your child will learn in today's story.",
+      'feng-desc':"Fast, funny and her blue backpack always contains exactly the wrong things for the situation. Nobody knows what's in there. She zooms around with confidence and somehow manages to turn every mixup into a fun learning adventure.",
+      'stories-eyebrow':'A new adventure. Every day.','stories-h2':'Six amazing characters. Six incredible worlds. A new story every day.',
+      'story-intro':'Every story is curated and calibrated to what your child already knows, while teaching them a little more. Your child picks the world. The crew takes it from there!',
       'theme-1':'Ancient Civilizations','theme-2':'Animal Adventures','theme-3':'Epic Quests & Heroes',
       'theme-4':'Everyday Life & Friends','theme-5':'Festivals & Celebrations','theme-6':'Magical Creatures & Folklore',
       'loop-eyebrow':'The Daily Loop','loop-header-h2':'Three steps. Ten minutes. Done.','loop-cta':'Start Free Trial',
@@ -2304,21 +2307,21 @@
       'nav-about':'关于','nav-features':'功能','nav-pricing':'价格',
       'nav-login':'登录','nav-cta':'免费试用',
       'hero-eyebrow':'首批家庭已加入 · 名额开放中',
-      'hero-headline':'孩子自己要读的中文故事。',
+      'hero-headline':'孩子们最喜爱的新伙伴们都说中文。',
       'hero-subhead':'每天一个新故事，按孩子的程度来写，读着读着就多认几个字。六个角色，一艘飞船，不用背单词，不用刷题。',
       'hero-cta':'开始免费冒险','hero-cta-note':'7天免费 · 不要信用卡 · 随时取消',
-      'ea-text':'第一批家庭正在跟我们一起试用，帮我们把产品做得更好。加入他们，首发价永久锁定。',
+      'ea-text':'一小群家庭正在帮助我们完善产品，共同塑造未来的方向。',
       'ea-btn':'立即申请',
       'crew-h2':'认识一下船员们',
-      'crew-intro':'每个故事都是新的一集——同一群角色，全新冒险。孩子跟他们越来越熟，中文就这么跟着来了。',
-      'ling-desc':'船上最让人安心的存在。局面一乱，她不用别人开口就知道每个人在想什么。金铃铛一响，大家就知道没事了。',
-      'meng-desc':'别人慌的时候他在看云，但说的通常都对。船上最小的一个，想象力最大——还懒得解释。',
-      'yong-desc':'什么问题到他手里都变成工程题。造东西、量东西、爬东西——信心十足，偶尔翻车。',
-      'qi-desc':'别人还在商量，他已经冲过去了。每次冒险都是他先起的头，绿围巾永远在飘。',
-      'ming-desc':'船上的书他全读过。古代碑文写了什么、传说什么意思，他都知道——还偷偷知道今天故事里孩子会学哪几个新字。',
-      'feng-desc':'快，好笑，蓝书包里永远掏出最不对的东西。没人知道里面有什么，包括他自己。帮不上忙，又特别有用。',
-      'stories-eyebrow':'每天一段新冒险','stories-h2':'六个世界，孩子自己选。',
-      'story-intro':'每天一个新故事，按孩子的程度来写，情节里自然带出3到5个新字。孩子选世界，船员负责讲故事。',
+      'crew-intro':'故事船上的每一个故事都是一个全新创作。同样的六个伙伴，不同的冒险 - 让孩子们在提升中文指能的同时，与船员们建立真实的情感纽带。',
+      'ling-desc':'她是大家最信任的伙伴。每当故事船抵达新的目的地，局面失控时，灵总能在任何人开口之前感知到每个人的心情。她的金铃铛代表着一切都会好起来。',
+      'meng-desc':'当其他人都感到恐慌时，他却盯着云看。但是他通常是对的。虽然他是船员中最小的，他却具有最大的想象力。',
+      'yong-desc':'每个问题对他来说都是一个工程挑战。他喜欢建造东西、测量东西、到处攀爬 - 充满自信，但偶尔也会算错。',
+      'qi-desc':'虽然大家还没商量好，他就已经冲向那扇奇怪的门。奇的好奇心是每段冒险的起点 - 他的绿色围巾时时迎风飘扬。',
+      'ming-desc':'他已读遍了故事船上所有的书。他知道古老铭文写了什么、传说意味着什么 - 还悄悄知道了孩子们今天的故事里会学到哪些新的中文词汇。',
+      'feng-desc':'她动作敏捷，幽默风趣，而且她那蓝色的背包里总是装着与实际情况完全不符的东西。没人知道里面装的是什么。她自信满满地四处奔跑，总能把每一次小插曲都变成一次有趣的冒险学习之旅。',
+      'stories-eyebrow':'每天一段新冒险','stories-h2':'六位超棒的人物。六个不可思议的世界。每天一个新故事。',
+      'story-intro':'每个故事都经过精心挑选和调整 - 根据孩子已有的知识量身定制，同时也包含一些新的词汇。孩子们选择故事背景，剩下的就交给船员们吧！',
       'theme-1':'古代文明','theme-2':'动物冒险','theme-3':'史诗英雄',
       'theme-4':'日常与友情','theme-5':'节日庆典','theme-6':'神奇生物与传说',
       'loop-eyebrow':'每天三步','loop-header-h2':'三步，十分钟，搞定。','loop-cta':'免费试用',
