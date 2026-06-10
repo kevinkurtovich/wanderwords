@@ -388,35 +388,48 @@
 
     /* ═══════════════════════════════ WRITING PRACTICE SECTION ═══════════════════════════════ */
     #writing { background:var(--cream-deep); overflow:hidden; }
-    .writing-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; padding:100px 0; }
+    .writing-inner { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; padding:100px 0; }
     .writing-text .eyebrow { margin-bottom:14px; }
     .writing-text h2 { margin-bottom:18px; }
     .writing-text p { font-size:1.05rem; color:#5a4a38; font-weight:600; margin-bottom:16px; line-height:1.75; }
     .writing-demo-wrap { display:flex; justify-content:center; }
-    .writing-phone-demo { background:#130e08; border-radius:44px; padding:28px 20px 24px; width:260px; box-shadow:0 40px 100px rgba(33,30,26,0.35),0 8px 24px rgba(33,30,26,0.15),inset 0 1px 0 rgba(255,255,255,0.06); position:relative; }
-    .writing-phone-demo-inner { background:#1c1409; border-radius:28px; padding:24px 16px 20px; }
-    .writing-field-wrap { position:relative; width:200px; height:200px; margin:0 auto 16px; }
-    .writing-field-bg { position:absolute; inset:0; border-radius:10px; border:1.5px solid rgba(181,173,160,0.45); overflow:hidden; background:#f0ebe0; }
-    .writing-field-bg::before { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(33,30,26,0.06) 50%, transparent calc(50% + 0.5px)), linear-gradient(to right, transparent calc(50% - 0.5px), rgba(33,30,26,0.06) 50%, transparent calc(50% + 0.5px)); }
+
+    /* Phone mockup — same as loop section */
+    .writing-phone { width:270px; aspect-ratio:448/916; position:relative; flex-shrink:0; }
+    .writing-phone::after { content:''; position:absolute; inset:0; z-index:10; background:url('iphone-frame.svg') center/contain no-repeat; pointer-events:none; }
+    .writing-phone-screen { position:absolute; top:2.29%; left:5.36%; right:4.91%; bottom:2.29%; border-radius:26px; overflow:hidden; background:#f4ede3; display:flex; flex-direction:column; }
+
+    /* Mini app header bar inside phone */
+    .wps-header { flex-shrink:0; padding:14px 16px 10px; display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(181,173,160,0.35); }
+    .wps-header-label { font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#7a6a58; }
+    .wps-header-char { font-family:'Noto Sans SC',sans-serif; font-size:1rem; font-weight:700; color:var(--dark); margin-left:auto; }
+
+    /* Canvas zone */
+    .wps-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 16px 16px; gap:0; }
+    .writing-field-wrap { position:relative; width:168px; height:168px; margin-bottom:14px; }
+    .writing-field-bg { position:absolute; inset:0; border-radius:10px; border:1.5px solid rgba(181,173,160,0.5); overflow:hidden; background:#ede6d8; }
+    .writing-field-bg::before { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(33,30,26,0.07) 50%, transparent calc(50% + 0.5px)), linear-gradient(to right, transparent calc(50% - 0.5px), rgba(33,30,26,0.07) 50%, transparent calc(50% + 0.5px)); }
     .writing-field-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(to bottom right, transparent calc(50% - 0.5px), rgba(33,30,26,0.04) 50%, transparent calc(50% + 0.5px)), linear-gradient(to bottom left, transparent calc(50% - 0.5px), rgba(33,30,26,0.04) 50%, transparent calc(50% + 0.5px)); }
-    .writing-canvas-wrap { position:relative; z-index:2; width:200px; height:200px; }
-    #hanziField { width:200px; height:200px; }
-    .writing-char-meta { text-align:center; padding:0 8px 8px; }
-    .writing-pinyin { font-size:0.85rem; font-weight:800; color:var(--teal-800); margin-bottom:3px; letter-spacing:0.05em; min-height:1.2em; }
-    .writing-meaning { font-size:1rem; font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-weight:700; color:rgba(246,241,232,0.9); margin-bottom:12px; min-height:1.2em; }
-    .writing-progress-dots { display:flex; justify-content:center; gap:7px; }
-    .writing-progress-dot { width:8px; height:8px; border-radius:50%; background:rgba(246,241,232,0.15); transition:all 350ms var(--ease-spring); }
+    .writing-canvas-wrap { position:relative; z-index:2; width:168px; height:168px; transition:transform 250ms var(--ease-spring); }
+    .writing-canvas-wrap.pulse { animation:canvas-pulse 300ms var(--ease-spring); }
+    #hanziField { width:168px; height:168px; display:block; }
+
+    .writing-char-meta { text-align:center; }
+    .writing-pinyin { font-size:0.72rem; font-weight:800; color:var(--teal); margin-bottom:2px; letter-spacing:0.05em; min-height:1em; }
+    .writing-meaning { font-size:0.85rem; font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-weight:700; color:var(--dark); margin-bottom:10px; min-height:1em; }
+    .writing-progress-dots { display:flex; justify-content:center; gap:6px; }
+    .writing-progress-dot { width:7px; height:7px; border-radius:50%; background:rgba(33,30,26,0.12); transition:all 350ms var(--ease-spring); }
     .writing-progress-dot.active { background:var(--orange); transform:scale(1.35); }
     .writing-progress-dot.done { background:var(--teal); }
+
+    /* XP reward overlay */
     .writing-xp-reward { position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center; pointer-events:none; }
-    .writing-xp-star { position:absolute; width:80px; height:auto; opacity:0; }
+    .writing-xp-star { position:absolute; width:64px; height:auto; opacity:0; }
     .writing-xp-star.animate { animation:xp-star-rise 600ms ease-out forwards; }
-    .writing-canvas-wrap { transition:transform 250ms var(--ease-spring); }
-    .writing-canvas-wrap.pulse { animation:canvas-pulse 300ms var(--ease-spring); }
-    .writing-xp-text { position:absolute; display:flex; align-items:baseline; gap:4px; font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-weight:700; color:var(--orange); line-height:1; white-space:nowrap; opacity:0; }
+    .writing-xp-text { position:absolute; display:flex; align-items:baseline; gap:3px; font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-weight:700; color:var(--orange); line-height:1; white-space:nowrap; opacity:0; }
     .writing-xp-text.animate { animation:xp-text-pop 580ms ease-out forwards; }
-    .writing-xp-amount { font-size:46px; }
-    .writing-xp-label { font-size:20px; text-transform:uppercase; letter-spacing:0.04em; }
+    .writing-xp-amount { font-size:36px; }
+    .writing-xp-label { font-size:16px; text-transform:uppercase; letter-spacing:0.04em; }
     @media(max-width:900px) { .writing-inner { grid-template-columns:1fr; gap:40px; } .writing-text { text-align:center; } }
 
     /* ═══════════════════════════════ FEATURES ═══════════════════════════════ */
@@ -895,30 +908,36 @@
         <p data-i18n="writing-p2">730 characters. Authentic stroke order. Real-time guidance. And Líng cheering every time your child gets it right.</p>
       </div>
       <div class="writing-demo-wrap">
-        <div class="writing-phone-demo">
-          <div class="writing-phone-demo-inner">
-            <div class="writing-field-wrap">
-              <div class="writing-field-bg"></div>
-              <div class="writing-canvas-wrap" id="writingCanvasWrap">
-                <div id="hanziField"></div>
-              </div>
-              <div class="writing-xp-reward">
-                <img class="writing-xp-star" id="writingXPStar" src="assets/xp-star.webp" alt="" />
-                <div class="writing-xp-text" id="writingXPText">
-                  <span class="writing-xp-amount" id="writingXPAmount">+15</span>
-                  <span class="writing-xp-label">XP</span>
+        <div class="writing-phone">
+          <div class="writing-phone-screen">
+            <div class="wps-header">
+              <span class="wps-header-label">Writing Practice</span>
+              <span class="wps-header-char" id="writingHeaderChar">山</span>
+            </div>
+            <div class="wps-body">
+              <div class="writing-field-wrap">
+                <div class="writing-field-bg"></div>
+                <div class="writing-canvas-wrap" id="writingCanvasWrap">
+                  <div id="hanziField"></div>
+                </div>
+                <div class="writing-xp-reward">
+                  <img class="writing-xp-star" id="writingXPStar" src="assets/xp-star.webp" alt="" />
+                  <div class="writing-xp-text" id="writingXPText">
+                    <span class="writing-xp-amount" id="writingXPAmount">+15</span>
+                    <span class="writing-xp-label">XP</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="writing-char-meta">
-              <div class="writing-pinyin" id="writingPinyin">shān</div>
-              <div class="writing-meaning" id="writingMeaning">mountain 山</div>
-              <div class="writing-progress-dots" id="writingDots">
-                <div class="writing-progress-dot active" data-i="0"></div>
-                <div class="writing-progress-dot" data-i="1"></div>
-                <div class="writing-progress-dot" data-i="2"></div>
-                <div class="writing-progress-dot" data-i="3"></div>
-                <div class="writing-progress-dot" data-i="4"></div>
+              <div class="writing-char-meta">
+                <div class="writing-pinyin" id="writingPinyin">shān</div>
+                <div class="writing-meaning" id="writingMeaning">mountain</div>
+                <div class="writing-progress-dots" id="writingDots">
+                  <div class="writing-progress-dot active" data-i="0"></div>
+                  <div class="writing-progress-dot" data-i="1"></div>
+                  <div class="writing-progress-dot" data-i="2"></div>
+                  <div class="writing-progress-dot" data-i="3"></div>
+                  <div class="writing-progress-dot" data-i="4"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -1739,6 +1758,8 @@ function updateDemoMeta(idx) {
   const meaning = document.getElementById('writingMeaning');
   if (pinyin)  pinyin.textContent  = el.pinyin;
   if (meaning) meaning.textContent = el.meaning;
+  const headerChar = document.getElementById('writingHeaderChar');
+  if (headerChar) headerChar.textContent = ch.char;
   document.querySelectorAll('.writing-progress-dot').forEach((dot, i) => {
     dot.classList.toggle('active', i === idx);
     dot.classList.toggle('done',   i < idx);
