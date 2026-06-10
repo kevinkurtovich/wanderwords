@@ -526,9 +526,9 @@
     @media(max-width:768px) { .roadmap-scroll { padding-left:24px; padding-right:24px; scroll-padding-left:24px; } .roadmap-card { flex:0 0 82vw; height:auto; flex-direction:column; scroll-snap-align:start; } .roadmap-card-img, .roadmap-card-collage { height:220px; flex:none; } .roadmap-card-text h3 { font-size:1.5rem; } }
 
     /* ═══════════════════════════════ PRICING ═══════════════════════════════ */
-    #pricing { background:var(--orange); }
-    #pricing .container { max-width:1400px; }
-    .pricing-panel { background:var(--cream); border-radius:24px; padding:78px 80px 120px; position:relative; }
+    #pricing { background:var(--orange); padding:64px 0; }
+    #pricing .container { max-width:1060px; }
+    .pricing-panel { background:var(--cream); border-radius:24px; padding:72px 72px 88px; position:relative; }
     .pricing-header { text-align:center; display:flex; flex-direction:column; align-items:center; gap:24px; }
     .pricing-header .eyebrow { margin-bottom:0; }
     .pricing-header h2 { margin-bottom:0; }
@@ -552,7 +552,7 @@
     .pricing-btn-outlined:hover { background:rgba(33,30,26,0.05); }
     .pricing-cancel { font-family:'Nunito',sans-serif; font-weight:600; font-size:0.75rem; line-height:1.5; color:#34312c; text-align:center; }
     .pricing-ling { position:absolute; left:40px; bottom:20px; width:275px; pointer-events:none; z-index:2; }
-    @media(max-width:900px) { .pricing-panel { padding:56px 32px 80px; } .pricing-cards { flex-direction:column; align-items:center; gap:32px; margin-top:56px; } .pricing-card { width:100%; max-width:440px; } .pricing-ling { width:160px; left:8px; bottom:8px; } }
+    @media(max-width:900px) { .pricing-panel { padding:56px 32px 72px; } .pricing-cards { flex-direction:column; align-items:center; gap:32px; margin-top:56px; } .pricing-card { width:100%; max-width:440px; } .pricing-ling { width:160px; left:8px; bottom:8px; } }
     @media(max-width:768px) { .pricing-panel { padding:48px 24px 64px; } .pricing-ling { display:none; } }
 
     /* ═══════════════════════════════ FAQ ═══════════════════════════════ */
@@ -1080,48 +1080,6 @@
 
 <!-- ROADMAP -->
 <div class="cloud-band cloud-orange" style="background-color:var(--cream);"></div>
-<section id="roadmap" class="section-pad">
-  <div class="container">
-    <div class="roadmap-header">
-      <span class="eyebrow reveal" data-i18n="roadmap-eyebrow">What's coming next</span>
-      <h2 class="reveal delay-1" data-i18n="roadmap-h2">We're just getting started.</h2>
-      <p class="roadmap-header-sub reveal delay-2" data-i18n="roadmap-sub">Every week the app gets better. Here's what's on the horizon.</p>
-    </div>
-    <div class="roadmap-scroll" id="roadmapScroll">
-      <div class="roadmap-card reveal">
-        <div class="roadmap-card-img">
-          <img src="screens/screen2-figma-web.jpg" alt="Multiplayer adventures" draggable="false" />
-        </div>
-        <div class="roadmap-card-text">
-          <h3 data-i18n="roadmap-1-title">Multiplayer adventures</h3>
-          <p data-i18n="roadmap-1-desc">Two children, one story, shared discovery. Siblings and friends will be able to join the same mission and experience the same adventure together — from different devices.</p>
-        </div>
-      </div>
-      <div class="roadmap-card reveal delay-1">
-        <div class="roadmap-card-img">
-          <img src="screens/screen3-figma-web.jpg" alt="Offline mode" draggable="false" />
-        </div>
-        <div class="roadmap-card-text">
-          <h3 data-i18n="roadmap-2-title">Offline mode</h3>
-          <p data-i18n="roadmap-2-desc">Adventures shouldn't stop at 30,000 feet. Download stories in advance and let your child explore any world — even without a connection.</p>
-        </div>
-      </div>
-      <div class="roadmap-card reveal delay-2">
-        <div class="roadmap-card-img">
-          <img src="screens/screen1-figma-web.jpg" alt="Speaking practice" draggable="false" />
-        </div>
-        <div class="roadmap-card-text">
-          <h3 data-i18n="roadmap-3-title">Speaking practice</h3>
-          <p data-i18n="roadmap-3-desc">Read it, write it, say it. Voice recognition will let your child practice pronouncing the characters they've learned — with gentle, encouraging feedback from their companion.</p>
-        </div>
-      </div>
-    </div>
-    <div class="roadmap-footer reveal">
-      <a href="https://app.wanderwords.co" class="roadmap-footer-cta" data-i18n="roadmap-cta">Start your adventure today →</a>
-      <p class="roadmap-footer-sub" data-i18n="roadmap-cta-sub">7-day free trial. No credit card required.</p>
-    </div>
-  </div>
-</section>
 
 <!-- PRICING -->
 <div class="cloud-band cloud-orange" style="background-color:var(--orange);"></div>
