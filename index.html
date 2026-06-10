@@ -304,61 +304,48 @@
     .gallery-img { height:340px; width:510px; object-fit:cover; border-radius:16px; flex-shrink:0; }
     @media(max-width:768px) { .story-gallery { margin-left:-24px; margin-right:-24px; } .gallery-img { height:220px; width:330px; } }
 
-    /* ═══════════════════════════════ BIOME WORLDS — card layout ═══════════════════════════════ */
-    #worlds { background:#0c2925; }
-    .worlds-header { text-align:center; padding:72px 48px 36px; flex-shrink:0; }
-    .worlds-header .eyebrow { color:var(--teal-800); }
-    .worlds-header h2 { color:var(--cream); margin-bottom:14px; }
-    .worlds-header p { color:rgba(246,241,232,0.7); font-weight:600; max-width:520px; margin:0 auto; font-size:1.05rem; line-height:1.75; }
+    /* ═══════════════════════════════ BIOME WORLDS ═══════════════════════════════ */
+    #worlds { background:var(--cream); }
 
     .worlds-scroll { height:400vh; position:relative; }
-    .worlds-sticky { position:sticky; top:0; height:100vh; min-height:580px; display:flex; flex-direction:column; padding-bottom:48px; box-sizing:border-box; }
+    .worlds-sticky { position:sticky; top:0; height:100vh; min-height:560px; display:flex; align-items:stretch; padding:40px 48px 48px; box-sizing:border-box; }
 
-    /* Rounded card with margins */
-    .worlds-card { flex:1; margin:0 48px; border-radius:24px; overflow:hidden; position:relative; min-height:0; }
+    /* Rounded card fills the sticky area */
+    .worlds-card { flex:1; border-radius:24px; overflow:hidden; position:relative; }
 
-    /* Background image layers inside the card */
+    /* Background image layers */
     .worlds-bg-layer { position:absolute; inset:0; opacity:0; transition:opacity 700ms ease; z-index:0; }
     .worlds-bg-layer.active { opacity:1; }
     .worlds-bg-img { width:100%; height:100%; object-fit:cover; display:block; }
 
-    /* Left gradient for text readability */
-    .worlds-card-gradient { position:absolute; inset:0; z-index:5; background:linear-gradient(to right, rgba(10,18,14,0.82) 0%, rgba(10,18,14,0.6) 30%, rgba(10,18,14,0.18) 58%, transparent 75%); pointer-events:none; }
+    /* Figma: white→transparent gradient from left (~4% to ~71%) */
+    .worlds-card-gradient { position:absolute; inset:0; z-index:5; background:linear-gradient(to right, rgba(246,241,232,1) 4%, rgba(246,241,232,0.88) 22%, rgba(246,241,232,0.45) 48%, transparent 72%); pointer-events:none; }
 
-    /* Dot nav — inside card, right edge */
-    .worlds-dot-nav { position:absolute; right:28px; top:50%; transform:translateY(-50%); z-index:30; display:flex; flex-direction:column; gap:14px; }
-    .worlds-dot { width:8px; height:8px; border-radius:50%; background:rgba(246,241,232,0.3); border:none; cursor:pointer; padding:0; transition:background 300ms ease, transform 300ms ease; }
-    .worlds-dot.active { background:var(--cream); transform:scale(1.5); }
+    /* Static text overlay — left-aligned, vertically centered */
+    .worlds-text-overlay { position:absolute; left:0; top:50%; transform:translateY(-50%); padding:0 48px; max-width:520px; z-index:20; }
+    .worlds-text-overlay .eyebrow { color:var(--orange); display:block; margin-bottom:14px; }
+    .worlds-text-overlay h2 { color:var(--dark); font-size:clamp(2.2rem,3.8vw,3.2rem); margin-bottom:16px; line-height:1.08; }
+    .worlds-text-overlay p { color:#1c1917; font-size:1rem; font-weight:600; line-height:1.72; max-width:440px; }
 
-    /* Text cards — bottom-left inside card */
-    .worlds-biome-card { position:absolute; bottom:0; left:0; padding:0 56px 48px 52px; max-width:620px; width:100%; z-index:20; opacity:0; transform:translateY(20px); transition:opacity 500ms ease, transform 500ms ease; pointer-events:none; }
-    .worlds-biome-card.active { opacity:1; transform:translateY(0); pointer-events:auto; }
-    .worlds-biome-level { font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.18em; color:var(--teal-800); margin-bottom:10px; display:block; }
-    .worlds-biome-name { font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-size:clamp(2.4rem,4vw,3.6rem); font-weight:800; color:var(--cream); line-height:1.0; margin-bottom:6px; }
-    .worlds-biome-zh { font-family:'Noto Sans SC',sans-serif; font-size:1.1rem; color:rgba(246,241,232,0.35); margin-bottom:14px; display:block; }
-    .worlds-biome-desc { font-size:0.95rem; color:rgba(246,241,232,0.82); font-weight:600; line-height:1.72; margin-bottom:12px; max-width:440px; }
-    .worlds-biome-music { display:flex; align-items:center; gap:8px; font-size:0.8rem; color:rgba(91,217,203,0.9); font-weight:700; }
-    .worlds-biome-music::before { content:'\u266a'; font-size:1rem; }
+    /* Dot nav — right edge, cream dots since image may be light or dark */
+    .worlds-dot-nav { position:absolute; right:24px; top:50%; transform:translateY(-50%); z-index:30; display:flex; flex-direction:column; gap:14px; }
+    .worlds-dot { width:8px; height:8px; border-radius:50%; background:rgba(33,30,26,0.22); border:none; cursor:pointer; padding:0; transition:background 300ms ease, transform 300ms ease; }
+    .worlds-dot.active { background:var(--dark); transform:scale(1.5); }
 
-    /* Thin progress bar at very bottom of card */
-    .worlds-progress-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(246,241,232,0.1); z-index:30; }
-    .worlds-progress-fill { height:100%; background:var(--teal); transition:width 600ms cubic-bezier(0.34,1.56,0.64,1); width:0%; }
+    /* Thin progress bar at bottom of card */
+    .worlds-progress-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(33,30,26,0.08); z-index:30; }
+    .worlds-progress-fill { height:100%; background:var(--orange); transition:width 600ms cubic-bezier(0.34,1.56,0.64,1); width:0%; }
 
     @media(max-width:900px) {
       .worlds-scroll { height:auto; }
-      .worlds-sticky { position:relative; height:auto; display:block; padding-bottom:0; }
-      .worlds-header { padding:56px 24px 32px; }
-      .worlds-card { margin:0; border-radius:0; display:none; }
-      .worlds-dot-nav { display:none; }
+      .worlds-sticky { position:relative; height:auto; padding:24px 20px 20px; }
+      .worlds-card { border-radius:20px; min-height:72vw; }
+      .worlds-card-gradient { background:linear-gradient(to right, rgba(246,241,232,0.95) 0%, rgba(246,241,232,0.75) 45%, transparent 75%); }
+      .worlds-text-overlay { padding:0 24px; max-width:75%; top:50%; }
+      .worlds-text-overlay h2 { font-size:1.5rem; margin-bottom:10px; }
+      .worlds-text-overlay p { display:none; }
+      .worlds-dot-nav { right:16px; }
       .worlds-progress-bar { display:none; }
-      .worlds-mobile-wrap { display:flex; flex-direction:column; gap:2px; padding-bottom:2px; }
-      .worlds-mobile-item { overflow:hidden; }
-      .worlds-mobile-img { width:100%; height:240px; object-fit:cover; display:block; }
-      .worlds-mobile-text { padding:20px 24px 28px; background:#0c2925; }
-      .worlds-biome-level { color:var(--teal-800); }
-      .worlds-biome-name { color:var(--cream); }
-      .worlds-biome-desc { color:rgba(246,241,232,0.82); }
-      .worlds-biome-music { color:rgba(91,217,203,0.9); }
     }
 
     /* ═══════════════════════════════ LOOP SECTION ═══════════════════════════════ */
@@ -808,49 +795,25 @@
 
 <!-- SIX WORLDS — BIOME SECTION -->
 <section id="worlds">
-  <div class="worlds-header">
-    <span class="eyebrow" data-i18n="worlds-eyebrow">Six immersive biomes</span>
-    <h2 data-i18n="worlds-h2">Six worlds. Original music. Endless discovery.</h2>
-    <p data-i18n="worlds-desc">Every world has its own stories, its own feel — and its own original soundtrack composed for Chinese instruments. As your child's Mandarin grows, new worlds unlock.</p>
-  </div>
-
   <div class="worlds-scroll" id="worldsScroll">
     <div class="worlds-sticky" id="worldsSticky">
-
-      <!-- Rounded card with margins -->
       <div class="worlds-card">
         <!-- Background image layers -->
         <div class="worlds-bg-layer active" data-bg="0"><img class="worlds-bg-img" src="biome-updates/03-mountain-01.jpg" alt="Mountain Temple" /></div>
         <div class="worlds-bg-layer" data-bg="1"><img class="worlds-bg-img" src="biome-updates/01-bamboo-02.jpg" alt="Bamboo Forest" /></div>
         <div class="worlds-bg-layer" data-bg="2"><img class="worlds-bg-img" src="biome-updates/05-dragon-realm-01.jpg" alt="Dragon Realm" /></div>
 
-        <!-- Left gradient for text readability -->
+        <!-- Cream→transparent gradient from left -->
         <div class="worlds-card-gradient"></div>
 
-        <!-- Text overlays — bottom left -->
-        <div class="worlds-biome-card active" data-biome="0">
-          <span class="worlds-biome-level">Levels 15–21</span>
-          <div class="worlds-biome-name" data-i18n="biome-2-name">Mountain Temple</div>
-          <span class="worlds-biome-zh sc">山中古寺</span>
-          <p class="worlds-biome-desc" data-i18n="biome-2-desc">High among mist-wrapped peaks, the crew finds a temple full of riddles and ancient wisdom. Every stone knows a story.</p>
-          <div class="worlds-biome-music" data-i18n="biome-2-music">Guqin &amp; temple bells — meditative, wise, ethereal</div>
-        </div>
-        <div class="worlds-biome-card" data-biome="1">
-          <span class="worlds-biome-level">Levels 1–7</span>
-          <div class="worlds-biome-name" data-i18n="biome-0-name">Bamboo Forest</div>
-          <span class="worlds-biome-zh sc">竹林</span>
-          <p class="worlds-biome-desc" data-i18n="biome-0-desc">Where every adventure begins. Soft green light filters through towering bamboo as the crew discovers the first mysteries of their world.</p>
-          <div class="worlds-biome-music" data-i18n="biome-0-music">Guzheng &amp; bamboo flute — light, curious, welcoming</div>
-        </div>
-        <div class="worlds-biome-card" data-biome="2">
-          <span class="worlds-biome-level">Levels 29–35</span>
-          <div class="worlds-biome-name" data-i18n="biome-4-name">Dragon Realm</div>
-          <span class="worlds-biome-zh sc">龙之领域</span>
-          <p class="worlds-biome-desc" data-i18n="biome-4-desc">The sky crackles with ancient energy. Dragons of every kind guard the knowledge your child has worked hard to earn.</p>
-          <div class="worlds-biome-music" data-i18n="biome-4-music">Full Chinese orchestra — epic, soaring, triumphant</div>
+        <!-- Static text overlay — same across all biomes -->
+        <div class="worlds-text-overlay">
+          <span class="eyebrow" data-i18n="worlds-eyebrow">Six immersive biomes</span>
+          <h2 data-i18n="worlds-h2">Six worlds. Original music. Endless discovery.</h2>
+          <p data-i18n="worlds-desc">Every world has its own stories, its own feel — and its own original soundtrack composed for Chinese instruments. As your child's Mandarin grows, new worlds unlock.</p>
         </div>
 
-        <!-- Dot nav — right edge of card -->
+        <!-- Dot nav — right edge -->
         <div class="worlds-dot-nav" id="worldsDotNav">
           <button class="worlds-dot active" data-idx="0"></button>
           <button class="worlds-dot" data-idx="1"></button>
@@ -860,40 +823,8 @@
         <!-- Progress bar -->
         <div class="worlds-progress-bar"><div class="worlds-progress-fill" id="worldsProgressFill"></div></div>
       </div><!-- /worlds-card -->
-
     </div><!-- /worlds-sticky -->
   </div><!-- /worlds-scroll -->
-
-  <!-- Mobile: static cards shown only on small screens -->
-  <div class="worlds-mobile-wrap" style="display:none" id="worldsMobileStack">
-    <div class="worlds-mobile-item">
-      <img class="worlds-mobile-img" src="biome-updates/03-mountain-01.jpg" alt="Mountain Temple" />
-      <div class="worlds-mobile-text">
-        <span class="worlds-biome-level">Levels 15–21</span>
-        <div class="worlds-biome-name" style="font-size:1.8rem;" data-i18n="biome-2-name">Mountain Temple</div>
-        <p class="worlds-biome-desc" data-i18n="biome-2-desc">High among mist-wrapped peaks, the crew finds a temple full of riddles and ancient wisdom. Every stone knows a story.</p>
-        <div class="worlds-biome-music" data-i18n="biome-2-music">Guqin &amp; temple bells — meditative, wise, ethereal</div>
-      </div>
-    </div>
-    <div class="worlds-mobile-item">
-      <img class="worlds-mobile-img" src="biome-updates/01-bamboo-02.jpg" alt="Bamboo Forest" />
-      <div class="worlds-mobile-text">
-        <span class="worlds-biome-level">Levels 1–7</span>
-        <div class="worlds-biome-name" style="font-size:1.8rem;" data-i18n="biome-0-name">Bamboo Forest</div>
-        <p class="worlds-biome-desc" data-i18n="biome-0-desc">Where every adventure begins. Soft green light filters through towering bamboo as the crew discovers the first mysteries of their world.</p>
-        <div class="worlds-biome-music" data-i18n="biome-0-music">Guzheng &amp; bamboo flute — light, curious, welcoming</div>
-      </div>
-    </div>
-    <div class="worlds-mobile-item">
-      <img class="worlds-mobile-img" src="biome-updates/05-dragon-realm-01.jpg" alt="Dragon Realm" />
-      <div class="worlds-mobile-text">
-        <span class="worlds-biome-level">Levels 29–35</span>
-        <div class="worlds-biome-name" style="font-size:1.8rem;" data-i18n="biome-4-name">Dragon Realm</div>
-        <p class="worlds-biome-desc" data-i18n="biome-4-desc">The sky crackles with ancient energy. Dragons of every kind guard the knowledge your child has worked hard to earn.</p>
-        <div class="worlds-biome-music" data-i18n="biome-4-music">Full Chinese orchestra — epic, soaring, triumphant</div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- HOW IT WORKS (LOOP) -->
@@ -1679,27 +1610,16 @@ function initWorlds() {
   const scrollZone  = document.getElementById('worldsScroll');
   const sticky      = document.getElementById('worldsSticky');
   const bgLayers    = document.querySelectorAll('.worlds-bg-layer');
-  const cards       = document.querySelectorAll('.worlds-biome-card');
   const dots        = document.querySelectorAll('.worlds-dot');
   const progressFill= document.getElementById('worldsProgressFill');
-  const mobileStack = document.getElementById('worldsMobileStack');
 
   const isMobile = () => window.innerWidth <= 900;
 
-  // Mobile: show static stack, hide scroll section
   function handleMobile() {
     if (isMobile()) {
-      if (scrollZone)    scrollZone.style.height = '0';
-      if (sticky)        sticky.style.display    = 'none';
-      if (mobileStack)   mobileStack.style.display = 'flex';
-      // apply mobile colour text
-      document.querySelectorAll('.worlds-mobile-text .worlds-biome-level,        .worlds-mobile-text .worlds-biome-name,        .worlds-mobile-text .worlds-biome-desc,        .worlds-mobile-text .worlds-biome-music').forEach(el => {
-        el.style.color = '';
-      });
+      if (scrollZone) scrollZone.style.height = 'auto';
     } else {
-      if (scrollZone)    scrollZone.style.height  = '';
-      if (sticky)        sticky.style.display     = '';
-      if (mobileStack)   mobileStack.style.display = 'none';
+      if (scrollZone) scrollZone.style.height = '';
     }
   }
   handleMobile();
@@ -1717,7 +1637,6 @@ function initWorlds() {
     current = idx;
 
     bgLayers.forEach((l, i) => l.classList.toggle('active', i === idx));
-    cards.forEach((c, i)    => c.classList.toggle('active', i === idx));
     dots.forEach((d, i)     => d.classList.toggle('active', i === idx));
 
     // Progress bar
