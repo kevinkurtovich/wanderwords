@@ -126,7 +126,9 @@
     @keyframes glow-book   { 0%,100%{filter:drop-shadow(0 0 8px rgba(123,79,181,.3))} 50%{filter:drop-shadow(0 0 24px rgba(123,79,181,.7))} }
     @keyframes alive-flash { 0%{color:var(--cream)} 40%{color:var(--orange)} 100%{color:var(--cream)} }
     @keyframes node-pop    { 0%{transform:scale(1)} 40%{transform:scale(1.35)} 70%{transform:scale(0.95)} 100%{transform:scale(1.2)} }
-    @keyframes writing-success { 0%{opacity:0;transform:scale(0.7)} 50%{opacity:1;transform:scale(1.1)} 100%{opacity:1;transform:scale(1)} }
+    @keyframes xp-star-rise  { 0%{opacity:0;transform:translateY(0) scale(0.6)} 45%{opacity:1;transform:translateY(-20px) scale(1)} 100%{opacity:0;transform:translateY(-38px) scale(1)} }
+    @keyframes xp-text-pop   { 0%{opacity:0;transform:scale(0.5)} 22%{opacity:1;transform:scale(1)} 68%{opacity:1;transform:scale(1)} 100%{opacity:0;transform:scale(1.05)} }
+    @keyframes canvas-pulse  { 0%{transform:scale(1)} 50%{transform:scale(1.04)} 100%{transform:scale(1)} }
 
     /* ═══════════════════════════════ REVEAL ═══════════════════════════════ */
     .reveal       { opacity:0; transform:translateY(32px);  transition:opacity 600ms ease-out, transform 600ms var(--ease-spring); }
@@ -403,10 +405,11 @@
     .writing-phone-demo { background:#130e08; border-radius:44px; padding:28px 20px 24px; width:260px; box-shadow:0 40px 100px rgba(33,30,26,0.35),0 8px 24px rgba(33,30,26,0.15),inset 0 1px 0 rgba(255,255,255,0.06); position:relative; }
     .writing-phone-demo-inner { background:#1c1409; border-radius:28px; padding:24px 16px 20px; }
     .writing-field-wrap { position:relative; width:200px; height:200px; margin:0 auto 16px; }
-    .writing-field-bg { position:absolute; inset:0; border-radius:10px; border:1.5px solid rgba(255,104,33,0.2); overflow:hidden; background:#0f0b06; }
-    .writing-field-bg::before { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(255,104,33,0.1) 50%, transparent calc(50% + 0.5px)), linear-gradient(to right, transparent calc(50% - 0.5px), rgba(255,104,33,0.1) 50%, transparent calc(50% + 0.5px)); }
-    .writing-field-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(to bottom right, transparent calc(50% - 0.5px), rgba(255,104,33,0.05) 50%, transparent calc(50% + 0.5px)), linear-gradient(to bottom left, transparent calc(50% - 0.5px), rgba(255,104,33,0.05) 50%, transparent calc(50% + 0.5px)); }
-    #hanziField { position:relative; z-index:2; width:200px; height:200px; }
+    .writing-field-bg { position:absolute; inset:0; border-radius:10px; border:1.5px solid rgba(181,173,160,0.45); overflow:hidden; background:#f0ebe0; }
+    .writing-field-bg::before { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(33,30,26,0.06) 50%, transparent calc(50% + 0.5px)), linear-gradient(to right, transparent calc(50% - 0.5px), rgba(33,30,26,0.06) 50%, transparent calc(50% + 0.5px)); }
+    .writing-field-bg::after { content:''; position:absolute; inset:0; background: linear-gradient(to bottom right, transparent calc(50% - 0.5px), rgba(33,30,26,0.04) 50%, transparent calc(50% + 0.5px)), linear-gradient(to bottom left, transparent calc(50% - 0.5px), rgba(33,30,26,0.04) 50%, transparent calc(50% + 0.5px)); }
+    .writing-canvas-wrap { position:relative; z-index:2; width:200px; height:200px; }
+    #hanziField { width:200px; height:200px; }
     .writing-char-meta { text-align:center; padding:0 8px 8px; }
     .writing-pinyin { font-size:0.85rem; font-weight:800; color:var(--teal-800); margin-bottom:3px; letter-spacing:0.05em; min-height:1.2em; }
     .writing-meaning { font-size:1rem; font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-weight:700; color:rgba(246,241,232,0.9); margin-bottom:12px; min-height:1.2em; }
@@ -414,9 +417,15 @@
     .writing-progress-dot { width:8px; height:8px; border-radius:50%; background:rgba(246,241,232,0.15); transition:all 350ms var(--ease-spring); }
     .writing-progress-dot.active { background:var(--orange); transform:scale(1.35); }
     .writing-progress-dot.done { background:var(--teal); }
-    .writing-success-flash { position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center; background:rgba(43,184,168,0.15); border-radius:10px; opacity:0; pointer-events:none; transition:opacity 300ms ease; }
-    .writing-success-flash.show { opacity:1; }
-    .writing-success-icon { font-size:3rem; animation:writing-success 400ms var(--ease-spring); }
+    .writing-xp-reward { position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center; pointer-events:none; }
+    .writing-xp-star { position:absolute; width:80px; height:auto; opacity:0; }
+    .writing-xp-star.animate { animation:xp-star-rise 600ms ease-out forwards; }
+    .writing-canvas-wrap { transition:transform 250ms var(--ease-spring); }
+    .writing-canvas-wrap.pulse { animation:canvas-pulse 300ms var(--ease-spring); }
+    .writing-xp-text { position:absolute; display:flex; align-items:baseline; gap:4px; font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-weight:700; color:var(--orange); line-height:1; white-space:nowrap; opacity:0; }
+    .writing-xp-text.animate { animation:xp-text-pop 580ms ease-out forwards; }
+    .writing-xp-amount { font-size:46px; }
+    .writing-xp-label { font-size:20px; text-transform:uppercase; letter-spacing:0.04em; }
     @media(max-width:900px) { .writing-inner { grid-template-columns:1fr; gap:40px; } .writing-text { text-align:center; } }
 
     /* ═══════════════════════════════ FEATURES ═══════════════════════════════ */
@@ -985,9 +994,15 @@
           <div class="writing-phone-demo-inner">
             <div class="writing-field-wrap">
               <div class="writing-field-bg"></div>
-              <div id="hanziField"></div>
-              <div class="writing-success-flash" id="writingSuccessFlash">
-                <span class="writing-success-icon">✓</span>
+              <div class="writing-canvas-wrap" id="writingCanvasWrap">
+                <div id="hanziField"></div>
+              </div>
+              <div class="writing-xp-reward">
+                <img class="writing-xp-star" id="writingXPStar" src="assets/xp-star.webp" alt="" />
+                <div class="writing-xp-text" id="writingXPText">
+                  <span class="writing-xp-amount" id="writingXPAmount">+15</span>
+                  <span class="writing-xp-label">XP</span>
+                </div>
               </div>
             </div>
             <div class="writing-char-meta">
@@ -1815,13 +1830,13 @@ window.addEventListener('load', initLoop);
    HANZIWRITER WRITING DEMO
 ═══════════════════════════════════════════════════════ */
 const DEMO_CHARS = [
-  { char:'山', pinyin:'shān', meaning:'mountain 山' },
-  { char:'水', pinyin:'shuǐ', meaning:'water 水' },
-  { char:'月', pinyin:'yuè',  meaning:'moon 月' },
-  { char:'火', pinyin:'huǒ',  meaning:'fire 火' },
-  { char:'木', pinyin:'mù',   meaning:'tree 木' },
+  { char:'山', pinyin:'shān', meaning:'mountain', xp: 10 },
+  { char:'水', pinyin:'shuǐ', meaning:'water',    xp: 12 },
+  { char:'月', pinyin:'yuè',  meaning:'moon',     xp: 10 },
+  { char:'火', pinyin:'huǒ',  meaning:'fire',     xp: 15 },
+  { char:'木', pinyin:'mù',   meaning:'tree',     xp: 10 },
 ];
-let demoIdx  = 0;
+let demoIdx    = 0;
 let demoWriter = null;
 let demoStarted = false;
 
@@ -1837,43 +1852,72 @@ function updateDemoMeta(idx) {
   });
 }
 
-function showSuccessFlash(cb) {
-  const flash = document.getElementById('writingSuccessFlash');
-  if (!flash) { cb(); return; }
-  flash.classList.add('show');
-  setTimeout(() => { flash.classList.remove('show'); setTimeout(cb, 200); }, 600);
+function showXPReward(xp, cb) {
+  const star     = document.getElementById('writingXPStar');
+  const xpText   = document.getElementById('writingXPText');
+  const xpAmount = document.getElementById('writingXPAmount');
+  const canvas   = document.getElementById('writingCanvasWrap');
+  if (!star || !xpText) { setTimeout(cb, 800); return; }
+
+  xpAmount.textContent = '+' + xp;
+
+  // Beat 1 — canvas gentle pulse (matches app's char scale-dissolve)
+  if (canvas) {
+    canvas.classList.add('pulse');
+    setTimeout(() => canvas.classList.remove('pulse'), 320);
+  }
+
+  // Beat 2 — star rises and fades (delay 150ms, 600ms)
+  setTimeout(() => {
+    star.classList.remove('animate');
+    void star.offsetWidth; // reflow to restart
+    star.classList.add('animate');
+  }, 150);
+
+  // Beat 3 — +XP pops in (delay 700ms, 580ms)
+  setTimeout(() => {
+    xpText.classList.remove('animate');
+    void xpText.offsetWidth;
+    xpText.classList.add('animate');
+  }, 700);
+
+  // Advance after full sequence
+  setTimeout(cb, 1600);
 }
 
 function runDemoChar(idx) {
   const field = document.getElementById('hanziField');
   if (!field || typeof HanziWriter === 'undefined') return;
   demoIdx = idx % DEMO_CHARS.length;
+  const ch = DEMO_CHARS[demoIdx];
   updateDemoMeta(demoIdx);
 
-  // destroy old writer
   field.innerHTML = '';
-  demoWriter = HanziWriter.create('hanziField', DEMO_CHARS[demoIdx].char, {
+  demoWriter = HanziWriter.create('hanziField', ch.char, {
     width: 200, height: 200,
-    padding: 20,
-    strokeColor: '#ff6821',
-    outlineColor: 'rgba(246,241,232,0.1)',
-    drawingColor: '#ff6821',
-    drawingWidth: 6,
-    strokeAnimationSpeed: 1.4,
-    delayBetweenStrokes: 120,
+    padding: 16,
+    strokeColor: '#211e1a',
+    outlineColor: '#b5ada0',
+    highlightColor: '#ff6821',
+    drawingColor: '#211e1a',
+    radicalColor: '#211e1a',
+    drawingWidth: 14,
+    strokeAnimationSpeed: 1.2,
+    delayBetweenStrokes: 200,
     showCharacter: false,
     showOutline: true,
-    radicalColor: '#5bd9cb',
+    highlightOnComplete: true,
   });
 
-  // animate the character
+  // Animate stroke-by-stroke (simulates the user tracing)
   demoWriter.animateCharacter({
     onComplete: () => {
+      // Let the orange highlight linger briefly, then show XP reward
       setTimeout(() => {
-        showSuccessFlash(() => {
-          setTimeout(() => runDemoChar(demoIdx + 1), 400);
+        showXPReward(ch.xp, () => {
+          setTimeout(() => runDemoChar(demoIdx + 1), 300);
         });
-      }, 400);
+      }, 350);
     }
   });
 }
@@ -1885,7 +1929,7 @@ if (writingSection) {
     entries.forEach(e => {
       if (e.isIntersecting && !demoStarted) {
         demoStarted = true;
-        setTimeout(() => runDemoChar(0), 500);
+        setTimeout(() => runDemoChar(0), 600);
         writingObs.unobserve(e.target);
       }
     });
