@@ -451,6 +451,8 @@
     #companion { background:var(--teal); overflow:hidden; }
     .companion-intro-zone { background:var(--cream); padding:100px 0 0; }
     .companion-header { text-align:center; margin-bottom:52px; padding:0 24px; }
+    .companion-sub { border-top:1px solid rgba(246,241,232,0.14); margin-top:64px; padding-top:72px; padding-bottom:24px; }
+    .companion-sub .companion-header { margin-bottom:44px; }
     .companion-header .eyebrow { color:rgba(246,241,232,0.6); }
     .companion-header h2 { color:var(--cream); margin-bottom:16px; }
     .companion-header p { color:rgba(246,241,232,0.8); font-weight:600; max-width:520px; margin:0 auto; font-size:1.05rem; line-height:1.75; }
@@ -459,9 +461,9 @@
     .companion-buddy { display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; padding:16px 12px; border-radius:20px; border:2px solid transparent; transition:all 300ms var(--ease-spring); }
     .companion-buddy:hover { transform:translateY(-4px); }
     .companion-buddy.active { border-color:rgba(246,241,232,0.3); background:rgba(246,241,232,0.12); }
-    .companion-buddy-fig { width:72px; height:108px; object-fit:contain; object-position:bottom; transition:transform 300ms var(--ease-spring); }
-    .companion-buddy:hover .companion-buddy-fig { transform:scale(1.06) translateY(-4px); }
-    .companion-buddy.active .companion-buddy-fig { transform:scale(1.12) translateY(-8px); }
+    .companion-buddy-fig { width:72px; height:72px; border-radius:50%; object-fit:cover; object-position:center top; transition:transform 300ms var(--ease-spring); border:2px solid rgba(246,241,232,0.18); }
+    .companion-buddy:hover .companion-buddy-fig { transform:scale(1.06); }
+    .companion-buddy.active .companion-buddy-fig { transform:scale(1.1); border-color:rgba(246,241,232,0.5); }
     .companion-buddy-name { font-family:'Fraunces',serif; font-variation-settings:'SOFT' 0,'WONK' 1; font-size:0.85rem; font-weight:700; color:rgba(246,241,232,0.55); transition:color 300ms ease; }
     .companion-buddy.active .companion-buddy-name { color:var(--cream); }
     .companion-reveal { max-width:580px; margin:0 auto; text-align:center; padding:32px 40px; background:rgba(246,241,232,0.09); border-radius:20px; border:1px solid rgba(246,241,232,0.14); min-height:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; transition:all 300ms ease; }
@@ -743,6 +745,44 @@
           </div>
         </div>
       </div>
+      <!-- COMPANION PICKER — folded into crew section -->
+      <div class="companion-sub">
+        <div class="companion-header">
+          <span class="eyebrow" style="color:rgba(246,241,232,0.6);" data-i18n="companion-eyebrow">Your child's adventure companion</span>
+          <h2 style="color:var(--cream);" data-i18n="companion-h2">One of them becomes their forever friend.</h2>
+          <p data-i18n="companion-desc">At the start of every journey, your child picks one companion. They appear in every story, cheer every practice win, and celebrate every level-up. Six personalities. One forever friend.</p>
+        </div>
+        <div class="companion-buddies" id="companionBuddies">
+          <div class="companion-buddy active" data-buddy="ling" data-name="Líng 灵" data-desc="The empathetic heart of the crew. Líng has a gift for understanding how everyone's feeling — and her golden bell chimes whenever things are about to be okay. Warm, steady, and the best person to have beside you when things get hard.">
+            <img class="companion-buddy-fig" src="assets/buddies/ling/avatar-1.webp" alt="Líng" />
+            <span class="companion-buddy-name">Líng</span>
+          </div>
+          <div class="companion-buddy" data-buddy="ming" data-name="Míng 明" data-desc="He's read every book on the ship — twice. Míng knows what the ancient inscription says, what constellation that is, and quietly which new words will appear in today's story. Gentle, wise, and utterly unimpressed by anything he hasn't already predicted.">
+            <img class="companion-buddy-fig" src="assets/buddies/ming/avatar-1.webp" alt="Míng" />
+            <span class="companion-buddy-name">Míng</span>
+          </div>
+          <div class="companion-buddy" data-buddy="feng" data-name="Fēng 风" data-desc="Fast, funny, and her blue backpack always contains exactly the wrong thing for the situation. Nobody knows what's in there. Fēng zooms everywhere with complete confidence and somehow turns every mixup into the best part of the story.">
+            <img class="companion-buddy-fig" src="assets/buddies/feng/avatar-1.webp" alt="Fēng" />
+            <span class="companion-buddy-name">Fēng</span>
+          </div>
+          <div class="companion-buddy" data-buddy="yong" data-name="Yǒng 勇" data-desc="Every problem is an engineering challenge. Yǒng likes to build things, measure things, and climbs up everything with complete confidence and occasional miscalculation. The one who suggests the plan that somehow works.">
+            <img class="companion-buddy-fig" src="assets/buddies/yong/avatar-1.webp" alt="Yǒng" />
+            <span class="companion-buddy-name">Yǒng</span>
+          </div>
+          <div class="companion-buddy" data-buddy="qi" data-name="Qí 奇" data-desc="He's already sprinted toward the strange door before anyone agreed it was a good idea. Qí's curiosity starts every adventure — and his green scarf is always windswept. Pure energy, pure wonder, zero patience for waiting around.">
+            <img class="companion-buddy-fig" src="assets/buddies/qi/avatar-1.webp" alt="Qí" />
+            <span class="companion-buddy-name">Qí</span>
+          </div>
+          <div class="companion-buddy" data-buddy="meng" data-name="Mèng 梦" data-desc="He's staring at the clouds while everyone is panicking. He's also usually right. The smallest crew member with the biggest imagination — and no particular interest in explaining himself until the exact right moment.">
+            <img class="companion-buddy-fig" src="assets/buddies/meng/avatar-1.webp" alt="Mèng" />
+            <span class="companion-buddy-name">Mèng</span>
+          </div>
+        </div>
+        <div class="companion-reveal" id="companionReveal">
+          <div class="companion-reveal-name" id="companionRevealName">Líng 灵</div>
+          <p class="companion-reveal-desc" id="companionRevealDesc">The empathetic heart of the crew. Líng has a gift for understanding how everyone's feeling — and her golden bell chimes whenever things are about to be okay. Warm, steady, and the best person to have beside you when things get hard.</p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="cloud-band cloud-cream" style="background-color:var(--teal);"></div>
@@ -984,49 +1024,7 @@
   </div>
 </section>
 
-<!-- CHOOSE YOUR COMPANION -->
-<section id="companion">
-  <div class="companion-teal-zone">
-    <div class="container">
-      <div class="companion-header">
-        <span class="eyebrow" data-i18n="companion-eyebrow">Your child's adventure companion</span>
-        <h2 class="reveal" style="color:var(--cream);" data-i18n="companion-h2">Pick your companion. They travel with you forever.</h2>
-        <p class="reveal delay-1" data-i18n="companion-desc">At the start of every WanderWords journey, your child picks one companion. Their buddy appears in every story, cheers every writing success, and celebrates every level-up. Six personalities. One forever friend.</p>
-      </div>
-      <div class="companion-buddies" id="companionBuddies">
-        <div class="companion-buddy active" data-buddy="ling" data-name="Líng 灵" data-desc="The empathetic heart of the crew. Líng has a gift for understanding how everyone's feeling — and her golden bell chimes whenever things are about to be okay. Warm, steady, and the best person to have beside you when things get hard.">
-          <img class="companion-buddy-fig" src="assets/buddies/ling/figurine-1.webp" alt="Líng" />
-          <span class="companion-buddy-name">Líng</span>
-        </div>
-        <div class="companion-buddy" data-buddy="ming" data-name="Míng 明" data-desc="He's read every book on the ship — twice. Míng knows what the ancient inscription says, what constellation that is, and quietly which new words will appear in today's story. Gentle, wise, and utterly unimpressed by anything he hasn't already predicted.">
-          <img class="companion-buddy-fig" src="assets/buddies/ming/figurine-1.webp" alt="Míng" />
-          <span class="companion-buddy-name">Míng</span>
-        </div>
-        <div class="companion-buddy" data-buddy="feng" data-name="Fēng 风" data-desc="Fast, funny, and her blue backpack always contains exactly the wrong thing for the situation. Nobody knows what's in there. Fēng zooms everywhere with complete confidence and somehow turns every mixup into the best part of the story.">
-          <img class="companion-buddy-fig" src="assets/buddies/feng/figurine-1.webp" alt="Fēng" />
-          <span class="companion-buddy-name">Fēng</span>
-        </div>
-        <div class="companion-buddy" data-buddy="yong" data-name="Yǒng 勇" data-desc="Every problem is an engineering challenge. Yǒng likes to build things, measure things, and climbs up everything with complete confidence and occasional miscalculation. The one who suggests the plan that somehow works.">
-          <img class="companion-buddy-fig" src="assets/buddies/yong/figurine-1.webp" alt="Yǒng" />
-          <span class="companion-buddy-name">Yǒng</span>
-        </div>
-        <div class="companion-buddy" data-buddy="qi" data-name="Qí 奇" data-desc="He's already sprinted toward the strange door before anyone agreed it was a good idea. Qí's curiosity starts every adventure — and his green scarf is always windswept. Pure energy, pure wonder, zero patience for waiting around.">
-          <img class="companion-buddy-fig" src="assets/buddies/qi/figurine-1.webp" alt="Qí" />
-          <span class="companion-buddy-name">Qí</span>
-        </div>
-        <div class="companion-buddy" data-buddy="meng" data-name="Mèng 梦" data-desc="He's staring at the clouds while everyone is panicking. He's also usually right. The smallest crew member with the biggest imagination — and no particular interest in explaining himself until the exact right moment.">
-          <img class="companion-buddy-fig" src="assets/buddies/meng/figurine-1.webp" alt="Mèng" />
-          <span class="companion-buddy-name">Mèng</span>
-        </div>
-      </div>
-      <div class="companion-reveal" id="companionReveal">
-        <div class="companion-reveal-name" id="companionRevealName">Líng 灵</div>
-        <p class="companion-reveal-desc" id="companionRevealDesc">The empathetic heart of the crew. Líng has a gift for understanding how everyone's feeling — and her golden bell chimes whenever things are about to be okay. Warm, steady, and the best person to have beside you when things get hard.</p>
-      </div>
-    </div>
-  </div>
-  <div class="cloud-band cloud-cream" style="background-color:var(--teal);"></div>
-</section>
+
 
 <!-- HERITAGE -->
 <div class="heritage-wrap section-pad">
@@ -1759,7 +1757,7 @@ function updateDemoMeta(idx) {
   if (pinyin)  pinyin.textContent  = el.pinyin;
   if (meaning) meaning.textContent = el.meaning;
   const headerChar = document.getElementById('writingHeaderChar');
-  if (headerChar) headerChar.textContent = ch.char;
+  if (headerChar) headerChar.textContent = el.char;
   document.querySelectorAll('.writing-progress-dot').forEach((dot, i) => {
     dot.classList.toggle('active', i === idx);
     dot.classList.toggle('done',   i < idx);
@@ -1808,7 +1806,7 @@ function runDemoChar(idx) {
 
   field.innerHTML = '';
   demoWriter = HanziWriter.create('hanziField', ch.char, {
-    width: 200, height: 200,
+    width: 168, height: 168,
     padding: 16,
     strokeColor: '#211e1a',
     outlineColor: '#b5ada0',
