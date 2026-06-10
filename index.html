@@ -125,7 +125,6 @@
     @keyframes fade-up     { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
     @keyframes glow-book   { 0%,100%{filter:drop-shadow(0 0 8px rgba(123,79,181,.3))} 50%{filter:drop-shadow(0 0 24px rgba(123,79,181,.7))} }
     @keyframes alive-flash { 0%{color:var(--cream)} 40%{color:var(--orange)} 100%{color:var(--cream)} }
-    @keyframes ling-hop    { 0%{transform:translateX(-50%) translateY(0)} 30%{transform:translateX(-50%) translateY(-22px) scaleX(0.9)} 60%{transform:translateX(-50%) translateY(-6px) scaleX(1.05)} 80%{transform:translateX(-50%) translateY(-10px)} 100%{transform:translateX(-50%) translateY(0)} }
     @keyframes node-pop    { 0%{transform:scale(1)} 40%{transform:scale(1.35)} 70%{transform:scale(0.95)} 100%{transform:scale(1.2)} }
     @keyframes writing-success { 0%{opacity:0;transform:scale(0.7)} 50%{opacity:1;transform:scale(1.1)} 100%{opacity:1;transform:scale(1)} }
 
@@ -320,9 +319,6 @@
     .worlds-bg-layer::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(10,18,14,0.9) 0%, rgba(10,18,14,0.55) 32%, rgba(10,18,14,0.15) 62%, transparent 100%); z-index:1; }
 
     /* Ling walking along bottom */
-    .worlds-ling-walker { position:absolute; bottom:150px; z-index:20; pointer-events:none; transition:left 700ms cubic-bezier(0.34,1.56,0.64,1); }
-    .worlds-ling-walker img { width:88px; height:auto; filter:drop-shadow(0 12px 32px rgba(0,0,0,0.7)); }
-    .worlds-ling-walker.hopping img { animation:ling-hop 600ms cubic-bezier(0.34,1.56,0.64,1); }
 
     /* Dot nav — right edge */
     .worlds-dot-nav { position:absolute; right:32px; top:50%; transform:translateY(-50%); z-index:30; display:flex; flex-direction:column; gap:14px; }
@@ -348,7 +344,6 @@
       .worlds-sticky { position:relative; height:auto; display:block; }
       .worlds-header { padding:64px 24px 40px; }
       .worlds-bg-layer { display:none; }
-      .worlds-ling-walker { display:none; }
       .worlds-dot-nav { display:none; }
       .worlds-progress-bar { display:none; }
       .worlds-biome-card { position:relative; bottom:auto; left:auto; padding:0; opacity:1; transform:none; pointer-events:auto; background:#0c2925; }
@@ -810,17 +805,12 @@
     <div class="worlds-sticky" id="worldsSticky">
 
       <!-- Full-bleed background layers -->
-      <div class="worlds-bg-layer active" data-bg="0"><img class="worlds-bg-img" src="assets/biomes/bamboo-forest.jpg" alt="Bamboo Forest" /></div>
-      <div class="worlds-bg-layer" data-bg="1"><img class="worlds-bg-img" src="assets/biomes/ocean-kingdom.jpg" alt="Ocean Kingdom" /></div>
-      <div class="worlds-bg-layer" data-bg="2"><img class="worlds-bg-img" src="assets/biomes/mountain-temple.jpg" alt="Mountain Temple" /></div>
-      <div class="worlds-bg-layer" data-bg="3"><img class="worlds-bg-img" src="assets/biomes/sunlit-desert.jpg" alt="Sunlit Desert" /></div>
-      <div class="worlds-bg-layer" data-bg="4"><img class="worlds-bg-img" src="assets/biomes/dragon-realm.jpg" alt="Dragon Realm" /></div>
-      <div class="worlds-bg-layer" data-bg="5"><img class="worlds-bg-img" src="assets/biomes/moon-garden.jpg" alt="Moon Garden" /></div>
-
-      <!-- Ling walking across the bottom -->
-      <div class="worlds-ling-walker" id="worldsLing">
-        <img src="assets/buddies/ling/figurine-1.webp" alt="Líng" />
-      </div>
+      <div class="worlds-bg-layer active" data-bg="0"><img class="worlds-bg-img" src="biome-updates/01-bamboo-02.jpg" alt="Bamboo Forest" /></div>
+      <div class="worlds-bg-layer" data-bg="1"><img class="worlds-bg-img" src="biome-updates/02-water-01.jpg" alt="Ocean Kingdom" /></div>
+      <div class="worlds-bg-layer" data-bg="2"><img class="worlds-bg-img" src="biome-updates/03-mountain-01.jpg" alt="Mountain Temple" /></div>
+      <div class="worlds-bg-layer" data-bg="3"><img class="worlds-bg-img" src="biome-updates/04-sunlit-desert-01.jpg" alt="Sunlit Desert" /></div>
+      <div class="worlds-bg-layer" data-bg="4"><img class="worlds-bg-img" src="biome-updates/05-dragon-realm-01.jpg" alt="Dragon Realm" /></div>
+      <div class="worlds-bg-layer" data-bg="5"><img class="worlds-bg-img" src="biome-updates/06-moon-01.jpg" alt="Moon Garden" /></div>
 
       <!-- Text overlays — bottom left -->
       <div class="worlds-biome-card active" data-biome="0">
@@ -1702,7 +1692,6 @@ function initWorlds() {
   const bgLayers    = document.querySelectorAll('.worlds-bg-layer');
   const cards       = document.querySelectorAll('.worlds-biome-card');
   const dots        = document.querySelectorAll('.worlds-dot');
-  const ling        = document.getElementById('worldsLing');
   const progressFill= document.getElementById('worldsProgressFill');
   const mobileStack = document.getElementById('worldsMobileStack');
 
@@ -1732,9 +1721,6 @@ function initWorlds() {
   const BIOME_COUNT = 6;
   let current = 0;
 
-  // Ling starts at left edge
-  const LING_POSITIONS = [8, 22, 36, 54, 70, 86]; // % across screen
-
   function setBiome(idx) {
     if (idx === current && idx === 0 && !bgLayers[0].classList.contains('active')) {
       // first run, fall through
@@ -1745,13 +1731,6 @@ function initWorlds() {
     cards.forEach((c, i)    => c.classList.toggle('active', i === idx));
     dots.forEach((d, i)     => d.classList.toggle('active', i === idx));
 
-    // Ling hops to new position
-    if (ling) {
-      ling.style.left = LING_POSITIONS[idx] + '%';
-      ling.classList.add('hopping');
-      setTimeout(() => ling.classList.remove('hopping'), 650);
-    }
-
     // Progress bar
     if (progressFill) {
       progressFill.style.width = ((idx / (BIOME_COUNT - 1)) * 100) + '%';
@@ -1760,7 +1739,6 @@ function initWorlds() {
 
   // Initial state
   setBiome(0);
-  if (ling) { ling.style.left = LING_POSITIONS[0] + '%'; }
 
   let ticking = false;
   window.addEventListener('scroll', () => {
