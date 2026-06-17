@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How WanderWords Works — for our beta families</title>
+<meta name="description" content="The adaptive engine behind WanderWords: how every story, game and practice session is built around exactly what your child knows.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,700&family=Nunito:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══ TOKENS (from wanderwords.co) ═══ */
+:root{
+  --cream:#f6f1e8; --cream-deep:#f0e8d8; --cream-desk:#f8f4ec;
+  --dark:#211e1a; --orange:#ff6821; --teal:#2ab8a8; --teal-800:#5bd9cb; --warm-brown:#766855;
+  --char-ling:#e8524a; --char-qi:#f5a623; --char-ming:#7b4fb5; --char-feng:#4db6e8; --char-yong:#3a8a4a; --char-meng:#2ab8a8;
+  --ease-spring:cubic-bezier(0.34,1.56,0.64,1);
+  --shadow-sm:0 4px 16px rgba(33,30,26,0.10); --shadow-md:0 8px 32px rgba(33,30,26,0.14);
+  --radius:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--dark);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+::selection{background:var(--orange);color:#fff}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;line-height:1.12;font-weight:800;font-variation-settings:'SOFT' 0,'WONK' 1}
+h1{font-size:clamp(2.4rem,4.5vw,3.8rem)}
+h2{font-size:clamp(1.9rem,3.4vw,2.9rem)}
+h3{font-size:1.5rem;font-weight:700}
+p{line-height:1.72;color:#3a3228}
+.sc{font-family:'Noto Sans SC',sans-serif}
+.eyebrow{font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--orange);margin-bottom:12px;display:block}
+.container{max-width:1160px;margin:0 auto;padding:0 48px}
+.section-pad{padding:104px 0}
+.narrow{max-width:760px;margin:0 auto}
+@media(max-width:768px){.container{padding:0 24px}.section-pad{padding:68px 0}}
+
+/* ═══ BUTTONS ═══ */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--dark);color:var(--cream);padding:14px 28px;border-radius:var(--radius);font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-weight:600;font-size:1rem;cursor:pointer;border:none;transition:transform 200ms var(--ease-spring),box-shadow 200ms ease}
+.btn-primary:hover{transform:scale(1.03);box-shadow:0 8px 28px rgba(33,30,26,.25)}
+.btn-orange{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;padding:14px 28px;border-radius:var(--radius);font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-weight:600;font-size:1rem;box-shadow:0 4px 20px rgba(255,104,33,0.4);cursor:pointer;border:none;transition:transform 200ms var(--ease-spring),box-shadow 200ms ease}
+.btn-orange:hover{transform:scale(1.04);box-shadow:0 8px 32px rgba(255,104,33,.55)}
+
+/* ═══ KEYFRAMES + REVEAL ═══ */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes float-sm{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes pulse-ring{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes cue{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 640ms ease-out,transform 640ms var(--ease-spring)}
+.reveal.revealed{opacity:1;transform:none}
+.delay-1{transition-delay:90ms!important}.delay-2{transition-delay:180ms!important}.delay-3{transition-delay:270ms!important}.delay-4{transition-delay:360ms!important}
+
+/* ═══ CLOUD DIVIDERS ═══ */
+.cloud-band{width:100%;height:149px;background-repeat:repeat-x;background-size:1440px 149px;background-position:center bottom;display:block;line-height:0;position:relative;z-index:5;margin-bottom:-1px}
+.cloud-cream{background-image:url('assets/cloud-band-cream.svg')}
+.cloud-teal{background-image:url('assets/cloud-band-teal.svg')}
+.cloud-orange{background-image:url('assets/cloud-band-orange.svg')}
+.cloud-teal8{background-image:url('assets/cloud-band-teal-800.svg')}
+
+/* ═══ NAV ═══ */
+#nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;transition:background 300ms ease,backdrop-filter 300ms ease,box-shadow 300ms ease}
+#nav.scrolled{background:rgba(246,241,232,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(33,30,26,0.08)}
+.nav-logo{height:40px;width:auto}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{font-weight:700;font-size:0.95rem;color:var(--dark);position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--orange);transition:width 200ms ease}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex;gap:12px;align-items:center}
+.nav-pill{font-family:'Nunito',sans-serif;font-size:0.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);background:rgba(255,104,33,0.12);padding:7px 14px;border-radius:999px;border:1.5px solid rgba(255,104,33,0.28)}
+@media(max-width:880px){.nav-links{display:none}#nav{padding:14px 24px}.nav-logo{height:34px}}
+
+/* ═══ HERO ═══ */
+#hero{position:relative;overflow:hidden;background:radial-gradient(80% 70% at 78% 6%,rgba(91,217,203,0.28) 0%,transparent 55%),radial-gradient(70% 60% at 8% 100%,rgba(255,104,33,0.12) 0%,transparent 55%),var(--cream);padding:168px 0 120px}
+.hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center}
+.hero-headline{margin-bottom:22px;max-width:13ch}
+.hero-headline .ink{color:var(--teal)}
+.hero-sub{font-size:1.12rem;color:#3a3228;max-width:50ch;margin-bottom:18px;font-weight:600;line-height:1.7}
+.hero-note{font-size:0.95rem;color:var(--warm-brown);font-weight:700;max-width:46ch}
+.hero-art{position:relative;display:flex;align-items:center;justify-content:center}
+.hero-art img{width:78%;max-width:340px;filter:drop-shadow(0 24px 50px rgba(33,30,26,.22));animation:float 6s ease-in-out infinite}
+.hero-glyph{position:absolute;font-family:'Noto Sans SC',serif;font-weight:700;color:var(--teal);opacity:.10;user-select:none}
+.herostats{display:flex;flex-wrap:wrap;gap:14px 44px;margin-top:46px;padding-top:34px;border-top:2px solid rgba(33,30,26,0.08)}
+.herostat .n{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:2.5rem;font-weight:800;color:var(--orange);line-height:1}
+.herostat .l{font-size:0.78rem;font-weight:700;letter-spacing:.04em;color:var(--warm-brown);margin-top:6px;text-transform:uppercase}
+.scrollcue{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:52px;font-size:0.7rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--warm-brown)}
+.scrollcue .line{width:2px;height:34px;background:linear-gradient(var(--orange),transparent);animation:cue 2.2s ease-in-out infinite;border-radius:2px}
+@media(max-width:880px){#hero{padding:128px 0 72px}.hero-grid{grid-template-columns:1fr;gap:8px}.hero-art{order:-1;margin-bottom:8px}.hero-art img{max-width:230px}.hero-headline{max-width:100%}}
+
+/* ═══ generic section heads & cards ═══ */
+.sec-head{max-width:760px;margin:0 auto 56px;text-align:center}
+.sec-head.left{margin-left:0;text-align:left}
+.sec-head p{font-size:1.08rem;color:#5a4a38;font-weight:600;line-height:1.7}
+.card{background:#fff;border-radius:20px;padding:30px;box-shadow:var(--shadow-sm)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:880px){.grid3,.grid2{grid-template-columns:1fr}}
+
+/* state inline tag */
+.t{font-family:'Nunito',sans-serif;font-size:.8em;font-weight:800;padding:2px 9px;border-radius:8px;white-space:nowrap}
+.t.new{color:#fff;background:var(--orange)}
+.t.prac{color:#fff;background:var(--teal)}
+.t.known{color:#fff;background:var(--char-yong)}
+.t.reinf{color:#fff;background:var(--char-qi)}
+
+/* ═══ PHILOSOPHY (teal) ═══ */
+#philosophy{background:var(--teal);color:var(--cream)}
+#philosophy .eyebrow{color:var(--cream)}
+#philosophy h2{color:#fff;margin-bottom:22px}
+#philosophy .lead{font-size:1.18rem;color:#eafaf7;font-weight:600;line-height:1.6}
+#philosophy p.body{color:#d6f2ee;font-weight:600;margin-top:18px}
+.philo-grid{display:grid;grid-template-columns:1.08fr 0.92fr;gap:60px;align-items:center}
+@media(max-width:880px){.philo-grid{grid-template-columns:1fr;gap:40px}}
+.pull{font-family:'Fraunces',serif;font-style:italic;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:clamp(1.7rem,3.2vw,2.5rem);line-height:1.3;color:#fff;margin-top:30px}
+.pull .sub{display:block;font-family:'Nunito',sans-serif;font-style:normal;font-size:0.95rem;color:#bfeae3;font-weight:700;margin-top:12px}
+.readscene{background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.18);border-radius:24px;padding:30px}
+.readrow{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.12)}
+.readrow:last-child{border-bottom:0}
+.readrow .ic{width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;background:var(--cream);color:var(--teal);font-family:'Noto Sans SC',serif;font-size:1.2rem;font-weight:700}
+.readrow .tt{font-weight:800;font-size:1rem;color:#fff}
+.readrow .dd{font-size:0.9rem;color:#cdeee9;font-weight:600;margin-top:2px;line-height:1.5}
+
+/* ═══ LEARNING LOOP (cream) ═══ */
+.statetrack{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;margin:8px 0}
+@media(max-width:820px){.statetrack{grid-template-columns:1fr;gap:14px}.statetrack .arrowcell{transform:rotate(90deg);height:34px}}
+.statenode{border-radius:20px;padding:28px 24px;border:2.5px solid;background:#fff;box-shadow:var(--shadow-sm);position:relative}
+.statenode .glyph{font-family:'Noto Sans SC',serif;font-size:2.6rem;line-height:1;margin-bottom:14px;display:block;font-weight:700}
+.statenode .sname{font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.statenode .stitle{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:1.5rem;font-weight:800;margin-bottom:10px;color:var(--dark)}
+.statenode .sdesc{font-size:0.92rem;color:#5a4a38;font-weight:600;line-height:1.55}
+.sn-new{border-color:var(--orange)}.sn-new .sname,.sn-new .glyph{color:var(--orange)}
+.sn-prac{border-color:var(--teal)}.sn-prac .sname,.sn-prac .glyph{color:var(--teal)}
+.sn-known{border-color:var(--char-yong)}.sn-known .sname,.sn-known .glyph{color:var(--char-yong)}
+.arrowcell{display:grid;place-items:center;padding:0 16px;position:relative}
+.arrowcell .alabel{position:absolute;top:50%;left:50%;transform:translate(-50%,-26px);white-space:nowrap;font-size:0.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--warm-brown)}
+.arrowcell svg{width:50px;height:22px;color:var(--dark)}
+.invariant{margin-top:30px;display:flex;gap:18px;align-items:center;background:var(--dark);border-radius:20px;padding:24px 28px;color:var(--cream)}
+.invariant .k{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:2.4rem;font-weight:800;color:var(--orange);flex:none;line-height:1}
+.invariant p{color:#e8e1d4;font-weight:600;font-size:1rem}
+.invariant b{color:#fff}
+
+/* ═══ ADAPTIVE CASTING (cream-deep) ═══ */
+#casting{background:var(--cream-deep)}
+.cast{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+@media(max-width:900px){.cast{grid-template-columns:1fr;gap:32px}}
+.poolbox{background:#fff;border-radius:20px;padding:26px;box-shadow:var(--shadow-sm)}
+.poolbox .ph{font-size:0.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-brown);margin-bottom:16px;display:flex;justify-content:space-between}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:'Noto Sans SC',serif;font-weight:700;font-size:1.2rem;width:46px;height:46px;display:grid;place-items:center;border-radius:12px;border:2px solid;position:relative}
+.c-new{color:var(--orange);background:rgba(255,104,33,.1);border-color:rgba(255,104,33,.4)}
+.c-reinf{color:#b9791a;background:rgba(245,166,35,.13);border-color:rgba(245,166,35,.45)}
+.c-prac{color:#1f8f82;background:rgba(42,184,168,.12);border-color:rgba(42,184,168,.45)}
+.c-known{color:var(--char-yong);background:rgba(58,138,74,.1);border-color:rgba(58,138,74,.35)}
+.chip.pick::after{content:"";position:absolute;inset:-5px;border:2.5px solid var(--dark);border-radius:15px;animation:pulse-ring 2.4s ease-in-out infinite}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px;font-size:0.8rem;color:#5a4a38;font-weight:700}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:5px;display:inline-block}
+.storyout{background:var(--dark);color:var(--cream);border-radius:24px;padding:30px;box-shadow:var(--shadow-md)}
+.storyout .ph{font-size:0.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-800);margin-bottom:16px}
+.storyout .story{font-family:'Noto Sans SC',serif;font-size:1.5rem;line-height:1.9;color:#fff;font-weight:500}
+.storyout .story b{font-weight:700;border-bottom:2.5px solid}
+.storyout .story .bn{color:#ffb48c;border-color:rgba(255,140,90,.6)}
+.storyout .story .bp{color:#8fe6db;border-color:rgba(91,217,203,.55)}
+.storyout .story .bk{color:#a9d8b1;opacity:.85;border-bottom:none}
+.storyout .cap{font-size:0.9rem;color:#c8c0b2;font-weight:600;margin-top:18px;line-height:1.55}
+.rulestrip{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+@media(max-width:760px){.rulestrip{grid-template-columns:1fr}}
+.rulestrip .r{background:#fff;border-radius:16px;padding:22px;box-shadow:var(--shadow-sm)}
+.rulestrip .rn{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:2rem;font-weight:800;color:var(--teal)}
+.rulestrip .rt{font-size:0.9rem;color:#5a4a38;font-weight:600;margin-top:4px;line-height:1.5}
+
+/* ═══ GRADUATION (cream) ═══ */
+.gradwrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media(max-width:900px){.gradwrap{grid-template-columns:1fr;gap:34px}}
+.formula{background:#fff;border-radius:20px;padding:32px;box-shadow:var(--shadow-sm)}
+.counter{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.counter .dots{display:flex;gap:7px}
+.counter .dot{width:26px;height:26px;border-radius:8px;border:2px solid rgba(33,30,26,.18);background:var(--cream)}
+.counter .dot.on{background:var(--teal);border-color:var(--teal)}
+.counter .dot.onw{background:var(--orange);border-color:var(--orange)}
+.counter .lbl{font-size:0.9rem;color:#5a4a38;font-weight:700}
+.counter .lbl b{color:var(--dark)}
+.gateline{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:1.15rem;background:var(--dark);color:var(--cream);border-radius:16px;padding:20px 22px;margin-top:22px;line-height:1.6;font-weight:600}
+.gateline b{color:#8fe6db}.gateline .amp{color:var(--orange);font-style:italic}
+.gradnote{margin-top:16px;font-size:0.9rem;color:#5a4a38;font-weight:600}
+.gradnote b{color:var(--orange)}
+#graduation h3{margin-bottom:14px}
+#graduation .body{font-size:1rem;color:#5a4a38;font-weight:600;line-height:1.7;margin-bottom:16px}
+#graduation .body b{color:var(--dark)}
+.hardpill{color:#fff;background:var(--orange);font-weight:800;padding:1px 9px;border-radius:8px}
+
+/* ═══ XP & LEVELS (cream) ═══ */
+.xptable{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.xprow{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:18px 24px;border-bottom:1px solid rgba(33,30,26,0.07)}
+.xprow:last-child{border-bottom:0}
+.xprow .et{font-weight:800;font-size:1rem;color:var(--dark)}
+.xprow .ed{font-size:0.84rem;color:var(--warm-brown);font-weight:600}
+.xprow .v{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-weight:700;font-size:1.05rem;color:var(--orange);white-space:nowrap;background:rgba(255,104,33,0.1);border-radius:10px;padding:6px 14px}
+.honest{background:var(--teal);color:var(--cream);border-radius:20px;padding:30px}
+.honest h3{color:#fff;margin-bottom:12px}
+.honest p{color:#eafaf7;font-weight:600;font-size:0.95rem;margin-bottom:14px;line-height:1.6}
+.honest p:last-child{margin-bottom:0}
+.honest b{color:#fff}
+.worlds-strip{margin-top:40px}
+.worlds-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+@media(max-width:900px){.worlds-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.worlds-row{grid-template-columns:repeat(2,1fr)}}
+.world{border-radius:16px;overflow:hidden;position:relative;aspect-ratio:3/4;box-shadow:var(--shadow-sm)}
+.world img{width:100%;height:100%;object-fit:cover}
+.world .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(33,30,26,.82) 0%,rgba(33,30,26,.15) 55%,transparent 100%)}
+.world .lbl{position:absolute;left:0;right:0;bottom:0;padding:14px 14px 16px;z-index:2}
+.world .lv{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-weight:800;font-size:0.85rem;color:var(--teal-800)}
+.world .nm{font-weight:800;font-size:0.92rem;color:#fff;line-height:1.2;margin-top:2px}
+.equiv{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:34px;font-weight:800;font-size:0.9rem;color:var(--warm-brown)}
+.equiv .eq{background:#fff;border-radius:999px;padding:9px 20px;color:var(--dark);box-shadow:var(--shadow-sm)}
+.equiv .arrow{color:var(--orange);font-family:'Fraunces',serif;font-size:1.3rem}
+
+/* ═══ BUDDIES (teal) ═══ */
+#buddy{background:var(--teal);color:var(--cream)}
+#buddy .eyebrow{color:var(--cream)}
+#buddy h2{color:#fff}
+#buddy .sec-head p{color:#e2f6f2;font-weight:600}
+.buddies-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.buddies-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.buddies-grid{grid-template-columns:1fr}}
+.buddy-card{background:#fff;border-radius:22px;padding:22px 22px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;border:3px solid transparent;transition:transform 320ms var(--ease-spring),box-shadow 320ms ease,border-color 320ms ease}
+.buddy-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-md)}
+.buddy-img{height:130px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:8px}
+.buddy-img img{max-height:130px;object-fit:contain;transition:transform 350ms var(--ease-spring)}
+.buddy-card:hover .buddy-img img{transform:scale(1.07) translateY(-3px)}
+.buddy-name{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:1.55rem;font-weight:800;display:flex;align-items:baseline;gap:8px}
+.buddy-name .py{font-size:0.78rem;color:var(--warm-brown);font-weight:700;font-family:'Nunito',sans-serif}
+.buddy-role{font-size:0.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:8px 0 4px}
+.buddy-animal{font-size:0.8rem;color:var(--warm-brown);font-weight:700}
+.buddy-trait{font-size:0.88rem;color:#5a4a38;font-weight:600;margin-top:10px;line-height:1.5}
+.guide-explain{margin-top:30px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;background:var(--dark);border-radius:24px;padding:32px 36px;color:var(--cream)}
+@media(max-width:680px){.guide-explain{grid-template-columns:1fr;text-align:center}}
+.guide-explain .gimg{width:120px;flex:none;margin:0 auto;filter:drop-shadow(0 12px 24px rgba(0,0,0,.3))}
+.guide-explain h3{color:#fff;margin-bottom:8px}
+.guide-explain p{color:#d6cfc2;font-weight:600;font-size:0.98rem;line-height:1.6}
+.guide-explain b{color:var(--teal-800)}
+
+/* ═══ WHAT'S TO COME (cream) ═══ */
+#future{background:var(--cream)}
+#future .sec-head p{color:#5a4a38;font-weight:600}
+.futurecards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:760px){.futurecards{grid-template-columns:1fr}}
+.fc{background:#fff;border-radius:18px;padding:26px;display:flex;flex-direction:column;box-shadow:var(--shadow-sm)}
+.fc .fcnum{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:0.9rem;font-weight:800;color:var(--teal)}
+.fc .fct{font-family:'Fraunces',serif;font-variation-settings:'SOFT' 0,'WONK' 1;font-size:1.5rem;font-weight:800;color:var(--orange);margin:8px 0}
+.fc .fcd{font-size:0.92rem;color:#5a4a38;font-weight:600;line-height:1.55;flex:1}
+.fc .tag{align-self:flex-start;margin-top:16px;font-size:0.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);background:rgba(42,184,168,.12);border-radius:999px;padding:5px 12px}
+
+/* ═══ CLOSING (cream-deep) ═══ */
+#closing{background:var(--cream-deep);text-align:center}
+#closing h2{margin-bottom:20px}
+#closing .lead{font-size:1.12rem;color:#5a4a38;font-weight:600;max-width:56ch;margin:0 auto 14px;line-height:1.65}
+#closing .smallnote{font-size:0.78rem;color:var(--warm-brown);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-top:30px}
+.closing-cta{margin-top:30px}
+
+/* ═══ FOOTER (teal) ═══ */
+footer{background:var(--teal);color:var(--cream);padding:48px}
+.footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.footer-logo{height:48px}
+.footer-copy{font-size:0.82rem;color:rgba(246,241,232,0.7);font-weight:600;margin-top:6px}
+.footer-links{display:flex;gap:26px}
+.footer-links a{font-size:0.875rem;color:var(--cream);opacity:0.78;font-weight:700;transition:opacity 200ms ease}
+.footer-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#top"><img class="nav-logo" src="assets/WanderWords-Logo-Dark.svg" alt="WanderWords"></a>
+  <div class="nav-links">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#loop">The Loop</a>
+    <a href="#casting">Adaptive Stories</a>
+    <a href="#xp">Progress</a>
+    <a href="#buddy">Buddies</a>
+    <a href="#future">What's Next</a>
+  </div>
+  <div class="nav-actions">
+    <span class="nav-pill">Closed Beta</span>
+    <a href="https://app.wanderwords.co" class="btn-orange" style="padding:10px 20px;font-size:0.9rem">Open the app</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="hero" class="container" style="max-width:none">
+  <div class="container" style="padding:0" id="top">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow reveal">A note for our beta families</span>
+        <h1 class="hero-headline reveal delay-1">The app that learns <span class="ink">your child</span>, character by character.</h1>
+        <p class="hero-sub reveal delay-2">WanderWords isn't a book of fixed lessons — it's an adaptive engine. Every story your child reads, every game they play, every character they practice is built around one thing: <em>exactly what this child knows right now</em>, and what they're ready to learn next.</p>
+        <p class="hero-note reveal delay-3">This page lifts the hood. It gets a little technical on purpose — because the intelligence is the point.</p>
+        <div class="herostats reveal delay-3">
+          <div class="herostat"><div class="n">3</div><div class="l">Learning states</div></div>
+          <div class="herostat"><div class="n">1</div><div class="l">Story a day, made for them</div></div>
+          <div class="herostat"><div class="n">6</div><div class="l">Buddies, one is yours</div></div>
+          <div class="herostat"><div class="n">42</div><div class="l">Levels across living worlds</div></div>
+        </div>
+      </div>
+      <div class="hero-art reveal delay-2">
+        <span class="hero-glyph sc" style="top:-6%;right:2%;font-size:7rem">学</span>
+        <span class="hero-glyph sc" style="bottom:2%;left:-2%;font-size:5rem">读</span>
+        <img src="assets/characters/Qi.png" alt="Qí, one of the six WanderWords buddies">
+      </div>
+    </div>
+    <div class="scrollcue reveal delay-4"><span>How it thinks</span><span class="line"></span></div>
+  </div>
+</header>
+
+<div class="cloud-band cloud-teal" aria-hidden="true"></div>
+
+<!-- PHILOSOPHY -->
+<section id="philosophy" class="section-pad">
+  <div class="container">
+    <div class="philo-grid">
+      <div>
+        <span class="eyebrow reveal">Why we built it this way</span>
+        <h2 class="reveal delay-1">Reading together is the whole point.</h2>
+        <p class="lead reveal delay-1">The research is unambiguous: children acquire language fastest from <em>comprehensible input</em> — material pitched just slightly beyond what they already know, shared with someone who cares. Not flashcards in isolation. Stories, read side by side.</p>
+        <p class="body reveal delay-2">So WanderWords is built around one daily ritual: a short story, sized to your child, read together. Everything technical underneath — the state machine, the casting engine, the XP economy — exists to protect that quiet moment and make it count. The software does the bookkeeping so the grown-up can simply be present.</p>
+        <p class="pull reveal delay-3">“一天一个故事。”<span class="sub">One story a day — the right one, every time.</span></p>
+      </div>
+      <div class="readscene reveal delay-2">
+        <div class="readrow"><div class="ic sc">读</div><div><div class="tt">A shared, daily story</div><div class="dd">Short enough to finish in one sitting. Calibrated so your child meets a few new characters in a sea of familiar ones.</div></div></div>
+        <div class="readrow"><div class="ic sc">问</div><div><div class="tt">Tap anything, anytime</div><div class="dd">Pinyin, meaning and stroke order are one tap away — so a stuck moment never becomes a stop.</div></div></div>
+        <div class="readrow"><div class="ic sc">写</div><div><div class="tt">Practice that follows the reading</div><div class="dd">Writing and games reinforce the exact characters the story introduced — never a random word list.</div></div></div>
+        <div class="readrow"><div class="ic sc">长</div><div><div class="tt">Visible, earned growth</div><div class="dd">Progress your child and parent can see and feel — a map that fills in as understanding deepens.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cloud-band cloud-cream" aria-hidden="true"></div>
+
+<!-- LEARNING LOOP -->
+<section id="loop" class="section-pad">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow reveal">01 — The Learning Loop</span>
+      <h2 class="reveal delay-1">Every character lives in one of three states.</h2>
+      <p class="reveal delay-2">Under the hood, WanderWords tracks each individual Chinese character your child has met — and gives it a status. This is the memory that makes everything else possible. A character is always in exactly one of three states, and it can only ever move forward.</p>
+    </div>
+
+    <div class="reveal delay-1">
+      <div class="statetrack">
+        <div class="statenode sn-new">
+          <span class="glyph sc">新</span>
+          <div class="sname">to&nbsp;learn</div>
+          <div class="stitle">Learning</div>
+          <div class="sdesc">Newly met in a story, or being reinforced. The child has seen it, but it isn't secure yet. This is where active teaching happens.</div>
+        </div>
+        <div class="arrowcell"><span class="alabel">graduates</span>
+          <svg viewBox="0 0 50 22" fill="none"><path d="M2 11h42m0 0l-8-7m8 7l-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="statenode sn-prac">
+          <span class="glyph sc">练</span>
+          <div class="sname">practicing</div>
+          <div class="stitle">Practicing</div>
+          <div class="sdesc">Graduated once. The child mostly has it, but it keeps circulating through stories and practice to lock it in. One hop from mastered.</div>
+        </div>
+        <div class="arrowcell"><span class="alabel">graduates</span>
+          <svg viewBox="0 0 50 22" fill="none"><path d="M2 11h42m0 0l-8-7m8 7l-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="statenode sn-known">
+          <span class="glyph sc">知</span>
+          <div class="sname">known</div>
+          <div class="stitle">Known</div>
+          <div class="sdesc">Mastered. It now counts toward your child's level and appears in future stories only as comfortable background — context, not a lesson.</div>
+        </div>
+      </div>
+
+      <div class="invariant">
+        <span class="k">×2</span>
+        <p>A character <b>never jumps</b> straight from Learning to Known. It always makes <b>two deliberate hops</b>, with real evidence at each step. Mastery is earned twice — once to start practicing, once to graduate. That's what keeps "known" honest: when WanderWords says your child knows a character, they genuinely do.</p>
+      </div>
+    </div>
+
+    <div class="grid3 reveal delay-2" style="margin-top:26px">
+      <div class="card">
+        <span class="eyebrow" style="color:var(--orange)">First sight</span>
+        <p style="font-size:0.95rem;font-weight:600;color:#5a4a38">The very first time a character appears, the reader flags it <span class="t new">new</span> — a gentle "this one's new." Its memory is born as <span class="t new">to learn</span>.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow" style="color:var(--char-qi)">Still warming up</span>
+        <p style="font-size:0.95rem;font-weight:600;color:#5a4a38">Seen before but not yet graduated, it shows as <span class="t reinf">still learning</span> — same underlying state, a clearer signal to the parent.</p>
+      </div>
+      <div class="card">
+        <span class="eyebrow" style="color:var(--teal)">If it's hard</span>
+        <p style="font-size:0.95rem;font-weight:600;color:#5a4a38">Mark a character <em>hard</em> in review and its progress resets — it drops back to <span class="t prac">practicing</span> and circulates more. A struggle is information, never a penalty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADAPTIVE CASTING -->
+<section id="casting" class="section-pad">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow reveal">02 — Adaptive Stories</span>
+      <h2 class="reveal delay-1">Each story is cast for one reader.</h2>
+      <p class="reveal delay-2">When WanderWords writes today's story, it doesn't pull a fixed text off a shelf. It reads your child's living character map and <em>casts</em> the story — choosing which characters to feature, which to gently reintroduce, and how many brand-new ones to risk — so the page lands in that productive sweet spot: familiar enough to flow, fresh enough to grow.</p>
+    </div>
+
+    <div class="cast reveal delay-1">
+      <div class="poolbox">
+        <div class="ph"><span>Your child's map</span><span>state-aware</span></div>
+        <div class="chips">
+          <span class="chip c-known sc">日</span><span class="chip c-known sc">月</span><span class="chip c-known sc">山</span>
+          <span class="chip c-prac pick sc">水</span><span class="chip c-known sc">人</span><span class="chip c-prac pick sc">火</span>
+          <span class="chip c-known sc">大</span><span class="chip c-reinf pick sc">小</span><span class="chip c-known sc">天</span>
+          <span class="chip c-known sc">上</span><span class="chip c-new pick sc">林</span><span class="chip c-known sc">下</span>
+          <span class="chip c-reinf pick sc">木</span><span class="chip c-known sc">中</span><span class="chip c-known sc">口</span>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--orange)"></i>new</span>
+          <span><i style="background:var(--char-qi)"></i>still learning</span>
+          <span><i style="background:var(--teal)"></i>practicing</span>
+          <span><i style="background:var(--char-yong)"></i>known</span>
+        </div>
+        <p style="font-size:0.78rem;color:var(--warm-brown);font-weight:700;margin-top:14px">↑ ringed = chosen for today's cast</p>
+      </div>
+      <div class="storyout">
+        <div class="ph">Today's story, assembled</div>
+        <div class="story sc"><b class="bk">小</b><b class="bp">水</b>滴 走进 <b class="bn">林</b>子，<b class="bk">大</b><b class="bk">山</b> 很安静。<b class="bp">火</b>光 在 <b class="bk">天</b>上。</div>
+        <div class="cap">Known characters carry the sentence so it reads smoothly. A few practicing and still-learning characters circulate. One or two genuinely new characters are introduced — never more than the child can absorb.</div>
+      </div>
+    </div>
+
+    <div class="rulestrip reveal delay-2">
+      <div class="r"><div class="rn">i + 1</div><div class="rt">The target difficulty: comprehensible input, pitched just one step beyond the child's current reach.</div></div>
+      <div class="r"><div class="rn">15</div><div class="rt">A ceiling on how many characters can be "in flight" at once. Hit it, and the next story introduces <em>zero</em> new ones — consolidate before adding.</div></div>
+      <div class="r"><div class="rn">priority</div><div class="rt">Characters close to graduating, or unseen for a while, get cast first — so nothing learned is quietly forgotten.</div></div>
+    </div>
+
+    <p class="narrow reveal delay-3" style="text-align:center;margin-top:40px;font-size:1rem;font-weight:600;color:#5a4a38">The same map drives <b style="color:var(--dark)">writing practice</b> and the <b style="color:var(--dark)">mini-games</b>. They never quiz a random character — they reinforce exactly the ones the reading has set in motion. Reading, practice and play all draw from one shared source of truth about your child.</p>
+  </div>
+</section>
+
+<!-- GRADUATION -->
+<section id="graduation" class="section-pad">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow reveal">03 — How a Character Graduates</span>
+      <h2 class="reveal delay-1">Mastery needs evidence from more than one place.</h2>
+      <p class="reveal delay-2">A character doesn't graduate because a timer ran out or a box got checked enough times. WanderWords uses a <em>blended</em> rule: it counts signals from real reading <em>and</em> real writing — and it won't promote a character on writing drills alone. The child has to actually meet it in context.</p>
+    </div>
+
+    <div class="gradwrap reveal delay-1">
+      <div class="formula">
+        <div class="counter">
+          <div class="dots"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></div>
+          <div class="lbl"><b>Reading signals</b> — each story where the character appears and is read</div>
+        </div>
+        <div class="counter">
+          <div class="dots"><span class="dot onw"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="lbl"><b>Writing signals</b> — each correct writing-practice rep</div>
+        </div>
+        <div class="gateline">graduate when <b>(reading + writing) ≥ 3</b> <span class="amp">and</span> <b>at least one reading signal</b> is present.</div>
+        <p class="gradnote">So three correct writing reps alone won't do it — without a reading signal, the character stays put. Context is mandatory.</p>
+      </div>
+      <div>
+        <h3 class="reveal delay-2">Why blended — and why it can reset</h3>
+        <p class="body reveal delay-2">Recognising a character on a flashcard and <b>understanding</b> it inside a sentence are different skills. By requiring both reading and writing evidence — with reading non-negotiable — WanderWords makes sure "known" means <em>used in context</em>, not just drilled.</p>
+        <p class="body reveal delay-3">And the system listens for trouble. If a parent marks a character <span class="hardpill">hard</span>, both counters <b>reset to zero</b> and it falls back to practicing. That's intentional: a hard signal means the child isn't ready, and pretending otherwise would only build a shaky foundation. The engine would rather be honest and patient than fast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cloud-band cloud-teal" aria-hidden="true"></div>
+
+<!-- XP & LEVELS -->
+<section id="xp" class="section-pad" style="background:var(--teal)">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow reveal" style="color:var(--cream)">04 — Progress &amp; Reward</span>
+      <h2 class="reveal delay-1" style="color:#fff">XP turns invisible learning into a visible journey.</h2>
+      <p class="reveal delay-2" style="color:#e2f6f2;font-weight:600">Every meaningful action earns experience points. XP isn't a vanity score — it's tuned so the things that <em>actually</em> build literacy are the things that move the needle. Reading, reviewing, writing and graduating characters all pay out, and they add up into levels.</p>
+    </div>
+
+    <div class="grid2 reveal delay-1" style="align-items:stretch">
+      <div class="xptable">
+        <div class="xprow"><div><div class="et">Graduating a character</div><div class="ed">Each forward hop between states</div></div><div class="v">+30 XP</div></div>
+        <div class="xprow"><div><div class="et">Reviewing a story</div><div class="ed">Reflecting on the characters you met</div></div><div class="v">+20 XP</div></div>
+        <div class="xprow"><div><div class="et">Completing a worksheet</div><div class="ed">Plus a streak bonus</div></div><div class="v">+20 XP</div></div>
+        <div class="xprow"><div><div class="et">A correct writing rep</div><div class="ed">Per character written correctly</div></div><div class="v">+10 XP</div></div>
+        <div class="xprow"><div><div class="et">A flawless writing session</div><div class="ed">All correct, 5+ characters · once a day</div></div><div class="v">+25 XP</div></div>
+        <div class="xprow"><div><div class="et">Daily streak bonus</div><div class="ed">For coming back, day after day</div></div><div class="v">+ bonus</div></div>
+      </div>
+      <div class="honest">
+        <h3>Honest by design</h3>
+        <p>Notice what <b>doesn't</b> earn XP: an incorrect writing attempt earns nothing — but it also costs nothing. There's no punishment for trying, only reward for getting there. Mistakes are part of the path, not a tax on it.</p>
+        <p>And rewards are capped where they should be. The flawless-session bonus fires at most once per day, so the incentive is to read and practice <b>well</b>, not to grind. The economy rewards genuine learning, and quietly resists being gamed.</p>
+      </div>
+    </div>
+
+    <div class="worlds-strip reveal delay-2">
+      <h3 style="color:#fff;text-align:center;margin-bottom:8px">Levels are a world to travel through.</h3>
+      <p style="text-align:center;color:#e2f6f2;font-weight:600;max-width:60ch;margin:0 auto 28px">The 42 levels are grouped into living biomes. Reaching the end of one world is a real milestone — with its own checkpoint — before the next opens.</p>
+      <div class="worlds-row">
+        <div class="world"><img src="assets/biomes/bamboo-forest.jpg" alt="Bamboo Forest"><div class="ov"></div><div class="lbl"><div class="lv">Lv 1–7</div><div class="nm">Bamboo Forest</div></div></div>
+        <div class="world"><img src="assets/biomes/ocean-kingdom.jpg" alt="Ocean Kingdom"><div class="ov"></div><div class="lbl"><div class="lv">Lv 8–14</div><div class="nm">Ocean Kingdom</div></div></div>
+        <div class="world"><img src="assets/biomes/mountain-temple.jpg" alt="Mountain Temple"><div class="ov"></div><div class="lbl"><div class="lv">Lv 15–21</div><div class="nm">Mountain Temple</div></div></div>
+        <div class="world"><img src="assets/biomes/sunlit-desert.jpg" alt="Sunlit Desert"><div class="ov"></div><div class="lbl"><div class="lv">Lv 22–28</div><div class="nm">Sunlit Desert</div></div></div>
+        <div class="world"><img src="assets/biomes/moon-garden.jpg" alt="Moon Garden"><div class="ov"></div><div class="lbl"><div class="lv">Lv 29–35</div><div class="nm">Moon Garden</div></div></div>
+        <div class="world"><img src="assets/biomes/dragon-realm.jpg" alt="Dragon Realm"><div class="ov"></div><div class="lbl"><div class="lv">Lv 36–42</div><div class="nm">Dragon Realm</div></div></div>
+      </div>
+      <div class="equiv">
+        <span class="eq">1 level</span><span class="arrow">≈</span>
+        <span class="eq">1 map node</span><span class="arrow">≈</span>
+        <span class="eq">~12 characters mastered</span>
+      </div>
+      <p style="text-align:center;font-size:0.82rem;color:#bfeae3;font-weight:700;margin-top:18px">The whole journey is data-driven — calibrated so steady daily reading carries a child a meaningful distance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUDDIES -->
+<section id="buddy" class="section-pad">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow reveal">05 — The Buddy System</span>
+      <h2 class="reveal delay-1">Six companions. One becomes your child's guide.</h2>
+      <p class="reveal delay-2">At the very start, your child chooses a buddy. That choice isn't cosmetic. The buddy becomes a constant, personality-consistent presence — walking the world map ahead of them, cheering a hard-won character, appearing at every meaningful moment. Not a mascot that rotates at random, but <em>their</em> companion for the whole journey.</p>
+    </div>
+
+    <div class="buddies-grid reveal delay-1">
+      <div class="buddy-card" style="border-color:var(--char-ling)">
+        <div class="buddy-img"><img src="assets/characters/Ling.png" alt="Líng"></div>
+        <div class="buddy-name">Líng <span class="py">líng · cat</span></div>
+        <div class="buddy-role" style="color:var(--char-ling)">The Heart</div>
+        <div class="buddy-trait">Warm, comforting, unifying — the one who steadies a wobble.</div>
+      </div>
+      <div class="buddy-card" style="border-color:var(--char-ming)">
+        <div class="buddy-img"><img src="assets/characters/Ming.png" alt="Míng"></div>
+        <div class="buddy-name">Míng <span class="py">míng · owl</span></div>
+        <div class="buddy-role" style="color:var(--char-ming)">The Sage</div>
+        <div class="buddy-trait">Measured and knowledgeable, a little formal — the explainer.</div>
+      </div>
+      <div class="buddy-card" style="border-color:var(--char-feng)">
+        <div class="buddy-img"><img src="assets/characters/Fent.png" alt="Fēng"></div>
+        <div class="buddy-name">Fēng <span class="py">fēng · cheetah</span></div>
+        <div class="buddy-role" style="color:var(--char-feng)">The Trickster</div>
+        <div class="buddy-trait">Chaotic good and quick — comic relief that keeps it light.</div>
+      </div>
+      <div class="buddy-card" style="border-color:var(--char-yong)">
+        <div class="buddy-img"><img src="assets/characters/Yong.png" alt="Yǒng"></div>
+        <div class="buddy-name">Yǒng <span class="py">yǒng · axolotl</span></div>
+        <div class="buddy-role" style="color:var(--char-yong)">The Champion</div>
+        <div class="buddy-trait">Analytical and action-oriented — the problem-solver.</div>
+      </div>
+      <div class="buddy-card" style="border-color:var(--char-qi)">
+        <div class="buddy-img"><img src="assets/characters/Qi.png" alt="Qí"></div>
+        <div class="buddy-name">Qí <span class="py">qí · red panda</span></div>
+        <div class="buddy-role" style="color:var(--char-qi)">The Explorer</div>
+        <div class="buddy-trait">Kinetic and wonder-driven — always rushing toward what's next.</div>
+      </div>
+      <div class="buddy-card" style="border-color:var(--char-meng)">
+        <div class="buddy-img"><img src="assets/characters/Meng.png" alt="Mèng"></div>
+        <div class="buddy-name">Mèng <span class="py">mèng · dragon</span></div>
+        <div class="buddy-role" style="color:var(--char-meng)">The Dreamer</div>
+        <div class="buddy-trait">Innocent and sensory — accidentally insightful in the best way.</div>
+      </div>
+    </div>
+
+    <div class="guide-explain reveal delay-2">
+      <img class="gimg" src="assets/characters/Qi.png" alt="Qí">
+      <div>
+        <h3>One source of truth answers a single question.</h3>
+        <p>Behind every screen that shows a buddy is the same question: <b>given this child's chosen companion, who should appear here?</b> Whether it's the figure walking the map, the face on a celebration, or the cheer after a flawless write — it's always <em>their</em> buddy, in character, never hardcoded or mismatched. Choose Qí, and Qí is with you everywhere.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cloud-band cloud-cream" aria-hidden="true"></div>
+
+<!-- WHAT'S TO COME -->
+<section id="future" class="section-pad">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow reveal">06 — On the Horizon</span>
+      <h2 class="reveal delay-1">This is the foundation, not the finish.</h2>
+      <p class="reveal delay-2">What you're testing is the engine — the part that's hard to get right. With that solid, the world on top of it gets richer fast. Here's some of what's coming.</p>
+    </div>
+    <div class="futurecards reveal delay-1">
+      <div class="fc"><div class="fcnum">→ 01</div><div class="fct">The Story Review Reel</div><div class="fcd">A swipe-through review where your child meets each character one card at a time — swipe to say "got it," and their buddy pops up to celebrate. Review becomes a moment, not a chore.</div><span class="tag">In build</span></div>
+      <div class="fc"><div class="fcnum">→ 02</div><div class="fct">A living, growing world</div><div class="fcd">As your child levels up, their biome fills in — a little house here, a jade statue there. The collectibles they earn reappear in the world itself, so progress feels lived-in.</div><span class="tag">Designed</span></div>
+      <div class="fc"><div class="fcnum">→ 03</div><div class="fct">More mini-games</div><div class="fcd">New ways to reinforce the same character map — matching, listening, tone games — each one drawing from exactly what your child is learning, never a generic quiz.</div><span class="tag">Planned</span></div>
+      <div class="fc"><div class="fcnum">→ 04</div><div class="fct">Richer buddy moments</div><div class="fcd">Streak milestones, "100 characters known," level-ups — each becomes a small, in-character beat with your buddy. Rewards that feel personal, paced so they never become wallpaper.</div><span class="tag">Planned</span></div>
+      <div class="fc"><div class="fcnum">→ 05</div><div class="fct">A travel journal &amp; collectibles</div><div class="fcd">Earned keepsakes from each biome, gathered into a journal your child can flip back through — a tangible record of how far their reading has carried them.</div><span class="tag">Planned</span></div>
+      <div class="fc"><div class="fcnum">→ 06</div><div class="fct">Deeper parent insight</div><div class="fcd">The character map already exists — we're building clearer windows into it for parents: what's secure, what's circulating, and exactly where to lean in together.</div><span class="tag">Exploring</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing" class="section-pad">
+  <div class="container narrow">
+    <span class="eyebrow reveal">Thank you for testing with us</span>
+    <h2 class="reveal delay-1">You're not testing a content library.<br>You're testing a tutor.</h2>
+    <p class="lead reveal delay-2">Everything here — the three states, the blended graduation, the cast-for-one stories, the honest XP — exists so WanderWords meets your child exactly where they are, every single day. Your feedback during this beta is how we make that meeting sharper.</p>
+    <p class="reveal delay-2" style="font-size:0.98rem;color:#5a4a38;font-weight:600;max-width:54ch;margin:0 auto">If something feels off, too easy, too hard, or simply delightful — tell us. You're shaping the engine.</p>
+    <div class="closing-cta reveal delay-3"><a href="https://app.wanderwords.co" class="btn-orange">Open WanderWords</a></div>
+    <div class="smallnote reveal delay-3">WanderWords · Closed Beta · Made for families learning together</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <img class="footer-logo" src="assets/WanderWords-Logo-Light.svg" alt="WanderWords">
+      <div class="footer-copy">An adaptive Mandarin reading engine for young learners.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#top">Top</a>
+      <a href="#loop">The Loop</a>
+      <a href="#buddy">Buddies</a>
+      <a href="https://app.wanderwords.co">Open the app</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20),{passive:true});
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -7% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
